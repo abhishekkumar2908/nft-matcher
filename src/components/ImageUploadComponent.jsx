@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import '../assets/style/ImageUploadComponent.css';
+import { myAxios } from '../services/helper';
 
 function ImageUploadComponent() {
   const [file, setFile] = useState(null);
-  const [result, setResult] = useState('');
+  const [fileName, setFileName] = useState('');
+  const [similarNFTs, setSimilarNFTs] = useState([]);
 
   const handleFileChange = (event) => {
-    setFile(event.target.files[0]);
+    const selectedFile = event.target.files[0];
+    setFile(selectedFile);
+    setFileName(selectedFile.name);
   };
 
   const handleSubmit = (event) => {
@@ -16,10 +19,10 @@ function ImageUploadComponent() {
     const formData = new FormData();
     formData.append('image', file);
 
-    axios
-      .post('http://localhost:8080/find/any/similar/image', formData)
+    myAxios
+      .post('/find/any/similar/image', formData)
       .then((response) => {
-        setResult(response.data.message);
+        setSimilarNFTs(response.data); // Assuming the response contains the list of similar NFTs
       })
       .catch((error) => {
         console.error(error);
@@ -28,20 +31,35 @@ function ImageUploadComponent() {
 
   return (
     <div className="container">
-      <h2 className="title">Upload an Image</h2>
+      <h2 className="title">Upload an Image to search similar image</h2>
       <form onSubmit={handleSubmit} className="form">
         <div className="form-group">
           <label htmlFor="imageInput" className="file-label">
             <input type="file" id="imageInput" onChange={handleFileChange} className="file-input" />
-            <span className="file-cta">Choose File</span>
+            <span className="file-cta">{fileName ? fileName : 'Choose File'}</span>
           </label>
         </div>
         <button type="submit" className="upload-button">
-          Upload
+          Check
         </button>
       </form>
-      <div className="result">{result}</div>
-
+      <div className="result">
+        {similarNFTs.length > 0 ? (
+          <ul>
+            {similarNFTs.map((nft) => (
+              <li key={nft.id}>
+                <p>NFT ID: {nft.nftId}</p>
+                <p>Image URL: {nft.imageOriginalUrl}</p>
+                <p>Token ID: {nft.tokenId}</p>
+                <p>Address: {nft.address}</p>
+                <p>Token Metadata: {nft.tokenMetadata}</p>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>No similar NFTs found.</p>
+        )}
+      </div>
     </div>
   );
 }
