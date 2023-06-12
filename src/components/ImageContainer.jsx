@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-// import localImgLoad from "../../lib/localImgLoad";
 
 function ImageContainer({ imageUrl }) {
   const [usingGateway, setUsingGateway] = useState(
@@ -12,14 +11,12 @@ function ImageContainer({ imageUrl }) {
   useEffect(() => {
     if (imageUrl) {
       const extension = imageUrl.split(".");
-      // console.log("extension", extension[extension.length - 1]);
     }
   }, [imageUrl]);
 
   useEffect(() => {
     if (index) {
       setUsingGateway(REACT_APP_BACKUP_IPFS_GATEWAYS[index]);
-      //   setLoader(false);
     }
   }, [index]);
 
@@ -40,7 +37,6 @@ function ImageContainer({ imageUrl }) {
         height: "100%",
         objectFit: "contain",
         borderRadius: "5px",
-        // boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
       }}
     />
   </>
