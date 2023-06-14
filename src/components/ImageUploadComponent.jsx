@@ -1,18 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import '../assets/style/ImageUploadComponent.css';
-import { myAxios } from '../services/helper';
-import ImageContainer from './ImageContainer';
-import AssetInformationComponent from './AssetInformationComponent';
-
+import React, { useState, useEffect } from "react";
+import "../assets/style/ImageUploadComponent.css";
+import { myAxios } from "../services/helper";
+import ImageContainer from "./ImageContainer";
+import AssetInformationComponent from "./AssetInformationComponent";
 
 function ImageUploadComponent() {
   const [file, setFile] = useState(null);
-  const [fileName, setFileName] = useState('');
+  const [fileName, setFileName] = useState("");
   const [similarNFTs, setSimilarNFTs] = useState([]);
   const [uploadState, setUploadState] = useState(false);
   const [selectedNFT, setSelectedNFT] = useState(null);
-  const [expandedStates, setExpandedStates] = useState(false); 
-  
+  const [expandedStates, setExpandedStates] = useState(false);
+
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
     setFile(selectedFile);
@@ -22,13 +21,15 @@ function ImageUploadComponent() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const formData = new FormData();
-    formData.append('image', file);
+    formData.append("image", file);
     myAxios
-      .post('/find/any/similar/image', formData)
+      .post("/find/any/similar/image", formData)
       .then((response) => {
         console.log("res", response.data);
-        setSimilarNFTs(response.data);  
+        setSimilarNFTs(response.data);
         setUploadState(true);
+        setSelectedNFT(null);
+        setExpandedStates({});
       })
       .catch((error) => {
         console.error(error);
@@ -36,28 +37,27 @@ function ImageUploadComponent() {
   };
 
   const handleMoreClick = (nft) => {
-    if (selectedNFT && selectedNFT.id === nft.id) {
-      setSelectedNFT(null);
-      setExpandedStates(prevState => ({ ...prevState, [nft.id]: false }));
-    } else {
-      if (selectedNFT) {
-        setExpandedStates(prevState => ({ ...prevState, [selectedNFT.id]: false }));
+    setSelectedNFT((prevSelectedNFT) => {
+      if (prevSelectedNFT && prevSelectedNFT.id === nft.id) {
+        return null;
+      } else {
+        return nft;
       }
-      setSelectedNFT(nft);
-      setExpandedStates(prevState => ({ ...prevState, [nft.id]: true }));
-    }
+    });
+    setExpandedStates((prevExpandedStates) => ({
+      ...prevExpandedStates,
+      [nft.id]: !prevExpandedStates[nft.id],
+    }));
   };
-  
 
   useEffect(() => {
-    if (fileName !== '') {
+    if (fileName !== "") {
       setUploadState(false);
     }
   }, [fileName]);
 
-
   return (
-    <div className="container">
+    <>
       <h2 className="title">Upload an Image to search similar image</h2>
       <form onSubmit={handleSubmit} className="form">
         <div className="form-group">
@@ -77,32 +77,31 @@ function ImageUploadComponent() {
           Check
         </button>
       </form>
-      <div style={{ marginTop: "18px" }}>
-        {uploadState && similarNFTs.length > 0 ? (
-          <div
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              justifyContent: "left",
-              gap: "20px",
-            }}
-          >
+
+      {uploadState && similarNFTs.length > 0 ? (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            flexWrap: "nowrap",
+            justifyContent: "left",
+            gap: "20px",
+          }}
+        >
+          <div>
             {similarNFTs.map((nft) => (
-              <div className='key' key={nft.id}>
+              <div
+                key={nft.id}
+                style={{ display: "flex" }}
+                className="container_item"
+              >
                 <div style={{ position: "relative" }}>
-                  <ImageContainer className='imageContainer'
+                  <ImageContainer
+                    className="imageContainer"
                     imageUrl={nft.imageOriginalUrl}
-                    
                   />
                 </div>
-                <div
-                  style={{
-                    padding: "10px",
-                    backgroundColor: "#fff",
-                    maxHeight: "120px",
-                    overflowY: "auto",
-                  }}
-                >
+                <div style={{ flexGrow: 1, alignItems: "flex-start" }}>
                   <p
                     style={{
                       fontSize: "16px",
@@ -128,15 +127,27 @@ function ImageUploadComponent() {
                     {expandedStates[nft.id] ? "-" : "+"}
                   </button>
                 </div>
+                {expandedStates[nft.id] && (
+                  <div style={{ marginLeft: "20px" }}>
+                    {selectedNFT ? (
+                      <div style={{ marginTop: "18px", display: "flex" }}>
+                        <AssetInformationComponent nft={selectedNFT} />
+                      </div>
+                    ) : null}
+                  </div>
+                )}
               </div>
             ))}
           </div>
-        ) : (
-          uploadState && <p>No similar NFTs found.</p>
-        )}
-      </div>
-      {selectedNFT && <AssetInformationComponent nft={selectedNFT} />}
-    </div>
+        </div>
+      ) : (
+      
+        uploadState && <p className="title">No similar NFTs found.</p>
+      
+      )}
+
+      
+    </>
   );
 }
 

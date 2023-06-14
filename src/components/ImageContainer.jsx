@@ -21,7 +21,31 @@ function ImageContainer({ imageUrl }) {
   }, [index]);
 
   return (
-    <>
+    <div style={{ position: "relative",width:"409px",height:"336px"}}>
+  <img
+    src={
+      imageUrl
+        ? imageUrl.includes("ipfs://")
+          ? usingGateway + imageUrl.split("ipfs://")[1]
+          : imageUrl
+        : ""
+    }
+    alt="banner"
+    style={{
+      filter: "blur(8px)",
+      maxWidth: "100%",
+      maxHeight: "100%",
+      objectFit: "cover",
+    }}
+  />
+  <div
+    style={{
+      position: "absolute",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-60%, -50%)",
+    }}
+  >
     <img
       src={
         imageUrl
@@ -31,15 +55,17 @@ function ImageContainer({ imageUrl }) {
           : ""
       }
       alt="banner"
-      className="w-full h-full object-scale-down absolute"
+      className="w-full h-full object-scale-down"
       style={{
-        width: "100%",
-        height: "100%",
-        objectFit: "contain",
-        borderRadius: "5px",
+        height: "288px",
+        objectFit:"contain",
+        // borderRadius: "5px",
+        width: "360px",
       }}
     />
-  </>
+  </div>
+</div>
+
   
   );
 }

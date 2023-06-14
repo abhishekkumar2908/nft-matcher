@@ -1,8 +1,11 @@
-.container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
+.container_item {
+      padding-right: 87px;
+      padding-left: 87px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      margin: 20px;
+      height: 350px;
+     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   }
 
 .imageContainer {
@@ -75,7 +78,29 @@
   .key {
     width: 300px;
     border-radius: 8px;
-    overflow: hidden;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  .nftCard{
+    padding: 10px;
+    background-color: #fff;
+    
+    
+  }
+
+  .nft-container{
+    .nft-cards-container {
+      width: calc(100% - 320px); /* Adjust the width according to your layout */
+      display:flexbox;
+      flex-wrap: wrap;
+      justify-content: left;
+    }
+  }
+  .message-box {
+    background-color: #a774744b;
+    border: 10px solid #100101;
+    border-radius: 4px;
+    padding: 2px;
+    margin-top: auto;
   }
   
