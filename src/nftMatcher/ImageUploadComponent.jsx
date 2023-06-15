@@ -3,6 +3,7 @@ import "../assets/style/ImageUploadComponent.css";
 import { myAxios } from "../services/helper";
 import ImageContainer from "./ImageContainer";
 import AssetInformationComponent from "./AssetInformationComponent";
+import { getImage } from "../APIs/endPoint";
 
 function ImageUploadComponent() {
   const [file, setFile] = useState(null);
@@ -11,6 +12,8 @@ function ImageUploadComponent() {
   const [uploadState, setUploadState] = useState(false);
   const [selectedNFT, setSelectedNFT] = useState(null);
   const [expandedStates, setExpandedStates] = useState(false);
+  const [index, setIndex] = useState([]);
+
 
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
@@ -23,7 +26,7 @@ function ImageUploadComponent() {
     const formData = new FormData();
     formData.append("image", file);
     myAxios
-      .post("/find/any/similar/image", formData)
+      .post(getImage, formData)
       .then((response) => {
         console.log("res", response.data);
         setSimilarNFTs(response.data);
@@ -37,8 +40,10 @@ function ImageUploadComponent() {
   };
 
   const handleMoreClick = (nft) => {
+    setIndex((prev) => [...prev, nft.nftId]);
+
     setSelectedNFT((prevSelectedNFT) => {
-      if (prevSelectedNFT && prevSelectedNFT.id === nft.id) {
+      if (prevSelectedNFT && prevSelectedNFT.id === nft.nftId) {
         return null;
       } else {
         return nft;
@@ -46,7 +51,7 @@ function ImageUploadComponent() {
     });
     setExpandedStates((prevExpandedStates) => ({
       ...prevExpandedStates,
-      [nft.id]: !prevExpandedStates[nft.id],
+      [nft.nftId]: !prevExpandedStates[nft.nftId],
     }));
   };
 
@@ -123,15 +128,16 @@ function ImageUploadComponent() {
                   >
                     Address: {nft.address}
                   </p>
-                  <button onClick={() => handleMoreClick(nft)}>
-                    {expandedStates[nft.id] ? "-" : "+"}
+                  <button onClick={() => handleMoreClick(nft)}
+                    style={{marginTop:"10px"}}  >
+                    {expandedStates[nft.nftId] ? "Less" : "More"}
                   </button>
                 </div>
-                {expandedStates[nft.id] && (
+                {expandedStates[nft.nftId] && (
                   <div style={{ marginLeft: "20px" }}>
                     {selectedNFT ? (
-                      <div style={{ marginTop: "18px", display: "flex" }}>
-                        <AssetInformationComponent nft={selectedNFT} />
+                      <div style={{ marginTop: "1px", display: "flex" }}>
+                        <AssetInformationComponent nft={selectedNFT} index={index}/>
                       </div>
                     ) : null}
                   </div>

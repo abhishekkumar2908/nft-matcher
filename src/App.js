@@ -1,6 +1,6 @@
 import React from 'react';
-import ImageUploadComponent from './components/ImageUploadComponent';
-import HeaderComponent from './components/navbar/HeaderComponent';
+import ImageUploadComponent from './nftMatcher/ImageUploadComponent';
+import HeaderComponent from './nftMatcher/navbar/HeaderComponent';
 
 const App = () => {
   return (
