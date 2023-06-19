@@ -1,4 +1,4 @@
-package mongo;
+package com.qualtab.NFTs.Collection.modal;
 
 import java.math.BigInteger;
 import java.util.UUID;
