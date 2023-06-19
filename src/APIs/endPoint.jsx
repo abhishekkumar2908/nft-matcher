@@ -1,1 +1,0 @@
-export const getImage = "/find/any/similar/image";

@@ -1,0 +1,13 @@
+.not-found-page {
+    text-align: center;
+  }
+  
+  .not-found-page__title {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .not-found-page__message {
+    font-size: 16px;
+  }
+  
