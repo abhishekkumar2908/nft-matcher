@@ -28,7 +28,7 @@ public class SimpleHashApiServiceImpl implements SimpleHashApiService {
 	public SimpleHashApiServiceImpl(CollectionsRepository collectionsRepository) {
 		this.collectionsRepository = collectionsRepository;
 		Retrofit retrofit = new Retrofit.Builder()
-				.baseUrl("https://api.simplehash.com/api/v0/nfts/collections/")
+				.baseUrl("https://api.simplehash.com/api/v0/nfts/")
 				.addConverterFactory(JacksonConverterFactory.create())
 				.build();
 		simpleHashService = retrofit.create(SimpleHashService.class);
@@ -38,9 +38,9 @@ public class SimpleHashApiServiceImpl implements SimpleHashApiService {
 	public void syncAvalancheFujiNFTs(String prevValue) throws IOException, InterruptedException {
 		
 		System.out.println(" \n starting from cursor: "+ prevValue);
-
+		String currentChain = "avalanche-fuji";
 		do {
-			Call<CollectionsResponse> call = simpleHashService.getNFTs("segmint_sk_f053f4b7-98e5-4c82-a1b9-8a409bef90b0_a01tnii6qimceimn", 
+			Call<CollectionsResponse> call = simpleHashService.getNFTs(currentChain, "segmint_sk_f053f4b7-98e5-4c82-a1b9-8a409bef90b0_a01tnii6qimceimn", 
 																	   "asc", 50, prevValue);
 		Response<CollectionsResponse> response = call.execute();
 //        System.out.print(response.body());
@@ -60,7 +60,7 @@ public class SimpleHashApiServiceImpl implements SimpleHashApiService {
 					collections.setCollectionId(ids.getCollectionId());
 					collections.setNextCursor(collectionsResponse.getNextCursor());
 					collections.setCreatedDate(new Date().getTime());
-					collections.setProvider("simpleHash");
+					collections.setProvider("simpleHash, by chain name: " + currentChain);
 					collectionsRepository.save(collections);
 					System.out.println("\n Saved with "+ prevValue +"\n address " + ids.getCollectionId());
 				
