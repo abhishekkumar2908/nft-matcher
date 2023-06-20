@@ -28,7 +28,7 @@ public class SimpleHashApiServiceImpl implements SimpleHashApiService {
 	public SimpleHashApiServiceImpl(CollectionsRepository collectionsRepository) {
 		this.collectionsRepository = collectionsRepository;
 		Retrofit retrofit = new Retrofit.Builder()
-				.baseUrl("https://api.simplehash.com/api/v0/nfts/collections/")
+				.baseUrl("https://api.simplehash.com/api/v0/nfts/")
 				.addConverterFactory(JacksonConverterFactory.create())
 				.build();
 		simpleHashService = retrofit.create(SimpleHashService.class);
@@ -40,9 +40,9 @@ public class SimpleHashApiServiceImpl implements SimpleHashApiService {
 		System.out.println(" \n starting from cursor: "+ prevValue);
 
 		do {
-			Call<CollectionsResponse> call = simpleHashService.getNFTs("asc",1, false, prevValue);
+			Call<CollectionsResponse> call = simpleHashService.getNFTs("segmint_sk_f053f4b7-98e5-4c82-a1b9-8a409bef90b0_a01tnii6qimceimn", "avalanche-fuji", "asc", 50, prevValue);
 		Response<CollectionsResponse> response = call.execute();
-//        System.out.print(response.body());
+        System.out.print(response.body());
 		if (response.isSuccessful()) {
 
 			CollectionsResponse collectionsResponse = response.body();	
@@ -76,23 +76,19 @@ public class SimpleHashApiServiceImpl implements SimpleHashApiService {
 		}while(prevValue != null);
 		
 	}
+	
 //................................................................................................................................................	
+	
 	@Override
 	public String loadPrevValue() {
-	    Collections collection = null;
-	    try {
-	        collection = collectionsRepository.findFirstByOrderByCreatedDateDesc();
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        // Handle the exception or log the error
-	        // Return an alternative value or throw a custom exception if needed
-	    }
+	    Collections collection = collectionsRepository.findFirstByOrderByCreatedDateDesc();
 	    if (collection == null) {
 	        return null;
 	    } else {
 	        return collection.getNextCursor();
 	    }
 	}
+
 
 
 	
