@@ -1,6 +1,5 @@
 package com.qualtab.NFTs.Collection.modal;
 
-import java.math.BigInteger;
 import java.util.UUID;
 
 import org.springframework.data.annotation.Id;

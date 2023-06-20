@@ -7,17 +7,12 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ObjectUtils;
 
 import com.qualtab.NFTs.Collection.modal.CollectionId;
 import com.qualtab.NFTs.Collection.modal.Collections;
 import com.qualtab.NFTs.Collection.modal.CollectionsResponse;
-import com.qualtab.NFTs.Collection.modal.NFT;
-import com.qualtab.NFTs.Collection.modal.NFTResponse;
 import com.qualtab.NFTs.Collection.repositories.CollectionsRepository;
-import com.qualtab.NFTs.Collection.repositories.NFTDocumentRepository;
 
-import mongo.NFTDocument;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -84,18 +79,22 @@ public class SimpleHashApiServiceImpl implements SimpleHashApiService {
 //................................................................................................................................................	
 	@Override
 	public String loadPrevValue() {
-		 	Collections collections;
-			try {
-				collections = CollectionsRepository.findFirstByOrderByCreatedDateDesc();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		 	if(collections == null)
-		 		return null;
-		 	else
-		 		return collections.getNextCursor();
+	    Collections collection = null;
+	    try {
+	        collection = collectionsRepository.findFirstByOrderByCreatedDateDesc();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        // Handle the exception or log the error
+	        // Return an alternative value or throw a custom exception if needed
+	    }
+	    if (collection == null) {
+	        return null;
+	    } else {
+	        return collection.getNextCursor();
+	    }
 	}
+
+
 	
 	
 	
