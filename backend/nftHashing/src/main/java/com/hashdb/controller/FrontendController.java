@@ -65,8 +65,9 @@ NftRepository nftRepository;
 		        	        Optional<NFT> optionalNft = nftRepository.findByNftId(nftId);
 		        	        if (optionalNft.isPresent()) {
 		        	            NFT nft = optionalNft.get();
+//		        	            similarNft.Set
 		        	            return new SimilarNft(nft.getId(), nft.getNftId(),nft.getImageOriginalUrl(), nft.getTokenId(), nft.getAddress(), nft.getTokenMetadata());
-		        	        }
+		        	     	   }
 							return null;
 		        	    })
 		        	    .filter(Objects::nonNull)

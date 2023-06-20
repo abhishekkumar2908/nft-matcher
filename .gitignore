@@ -1,1 +1,11 @@
 node_modules
+/backend/nftCollection/.settings
+/backend/nftCollection/.classpath
+/backend/nftCollection/.gitignore
+/backend/nftCollection/.project
+/backend/nftHashing/.project
+/backend/nftHashing/.settings
+/backend/nftHashing/.classpath
+/backend/nftHashing/.gitignore
+/backend/nftHashing/target
+/backend/nftCollection/target

@@ -33,9 +33,9 @@ const prod = {
     BASE_URL: "http://localhost:3000/",
   },
   awsConfig: {
-    Region: "ap-east-1",
-    UserPoolId: "us-east-1_PXTewAd8m",
-    ClientId: "3j3be0nenmhoe4pnqeth7fgmk1",
+    Region: "ap-south-1",
+    UserPoolId: "ap-south-1_QEpROgOaY",
+    ClientId: "6kuq7t0vc3r2iu6nbvpa25n0ph",
     LoginURL: "https://oktaknowledgeontap.auth.us-east-1.amazoncognito.com",
   },
   api: {

@@ -6,19 +6,75 @@ import lombok.Data;
 
 @Data
 public class SimilarNft {
-    private UUID id;
-    private Integer nftId;
-    private String imageOriginalUrl;
-    private Integer tokenId;
-    private String address;
-    private String tokenMetadata;
+	private UUID id;
+	private Integer nftId;
+	private String imageOriginalUrl;
+	private Integer tokenId;
+	private String address;
+	private String tokenMetadata;
 
-    public SimilarNft(UUID id, Integer nftId, String imageOriginalUrl, Integer tokenId, String address, String tokenMetadata) {
-        this.id = id;
-        this.nftId = nftId;
-        this.imageOriginalUrl = imageOriginalUrl;
-        this.tokenId = tokenId;
-        this.address = address;
-        this.tokenMetadata = tokenMetadata;
-    }
+	public SimilarNft(UUID id, Integer nftId, String imageOriginalUrl, Integer tokenId, String address,
+			String tokenMetadata) {
+		this.id = id;
+		this.nftId = nftId;
+		this.imageOriginalUrl = imageOriginalUrl;
+		this.tokenId = tokenId;
+		this.address = address;
+		this.tokenMetadata = tokenMetadata;
+	}
+
+	public UUID getId() {
+		return id;
+	}
+
+	public void setId(UUID id) {
+		this.id = id;
+	}
+
+	public Integer getNftId() {
+		return nftId;
+	}
+
+	public void setNftId(Integer nftId) {
+		this.nftId = nftId;
+	}
+
+	public String getImageOriginalUrl() {
+		return imageOriginalUrl;
+	}
+
+	public void setImageOriginalUrl(String imageOriginalUrl) {
+		this.imageOriginalUrl = imageOriginalUrl;
+	}
+
+	public Integer getTokenId() {
+		return tokenId;
+	}
+
+	public void setTokenId(Integer tokenId) {
+		this.tokenId = tokenId;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getTokenMetadata() {
+		return tokenMetadata;
+	}
+
+	public void setTokenMetadata(String tokenMetadata) {
+		this.tokenMetadata = tokenMetadata;
+	}
+
+	@Override
+	public String toString() {
+		return "SimilarNft [id=" + id + ", nftId=" + nftId + ", imageOriginalUrl=" + imageOriginalUrl + ", tokenId="
+				+ tokenId + ", address=" + address + ", tokenMetadata=" + tokenMetadata + "]";
+	}
+
 }
