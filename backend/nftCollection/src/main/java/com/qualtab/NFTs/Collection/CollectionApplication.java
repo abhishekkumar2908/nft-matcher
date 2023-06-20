@@ -9,12 +9,15 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 
 import com.qualtab.NFTs.Collection.services.OpenSeaApiService;
+import com.qualtab.NFTs.Collection.services.SimpleHashApiService;
 
 @SpringBootApplication
 public class CollectionApplication {
 	
+//	@Autowired
+//	private OpenSeaApiService openSeaApiService;
 	@Autowired
-	private OpenSeaApiService openSeaApiService;
+	private SimpleHashApiService simpleHashApiService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(CollectionApplication.class, args);
@@ -22,8 +25,8 @@ public class CollectionApplication {
 
 	@EventListener(ApplicationReadyEvent.class)
 	public void onApplicationReady(ApplicationReadyEvent event) throws IOException, InterruptedException {
-		String prevValue = openSeaApiService.loadPrevValue();
-		openSeaApiService.syncOpenSeaNFTs(prevValue);
+		String prevValue = simpleHashApiService.loadPrevValue();
+		simpleHashApiService.syncAvalancheFujiNFTs(prevValue);
 	}
 
 }

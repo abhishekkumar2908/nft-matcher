@@ -6,8 +6,6 @@ import org.springframework.stereotype.Repository;
 
 import com.qualtab.NFTs.Collection.modal.Collections;
 
-import mongo.NFTDocument;
-
 @Repository
 public interface CollectionsRepository extends MongoRepository<Collections, UUID> {
 
