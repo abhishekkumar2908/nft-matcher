@@ -1,6 +1,6 @@
-package com.qualtab.NFTs.Collection.services;
+package com.qualtab.NFTs.Collection.services.SimpleHashServices;
 
-import com.qualtab.NFTs.Collection.modal.CollectionsResponse;
+import com.qualtab.NFTs.Collection.entities.CollectionsResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

@@ -1,4 +1,4 @@
-package com.qualtab.NFTs.Collection.modal;
+package com.qualtab.NFTs.Collection.entities;
 
 import java.util.List;
 
@@ -12,6 +12,9 @@ import lombok.Data;
 public class CollectionsResponse {
 	@JsonProperty("next_cursor")
 	private String nextCursor;
+	
+	@JsonProperty("previous")
+	private String privious;
 	
 	@JsonProperty("collections")
 	private List<CollectionId> collections;

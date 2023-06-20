@@ -1,4 +1,4 @@
-package com.qualtab.NFTs.Collection.services;
+package com.qualtab.NFTs.Collection.services.OpenSeaServices;
 
 import java.io.IOException;
 

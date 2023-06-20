@@ -1,6 +1,7 @@
-package com.qualtab.NFTs.Collection.services;
+package com.qualtab.NFTs.Collection.services.OpenSeaServices;
 
-import com.qualtab.NFTs.Collection.modal.NFTResponse;
+import com.qualtab.NFTs.Collection.entities.NFTResponse;
+
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
