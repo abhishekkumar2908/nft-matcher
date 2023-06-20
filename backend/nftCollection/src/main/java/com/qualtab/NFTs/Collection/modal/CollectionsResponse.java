@@ -10,8 +10,8 @@ import lombok.Data;
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CollectionsResponse {
-	@JsonProperty("next")
-	private String next;
+	@JsonProperty("next_cursor")
+	private String nextCursor;
 	
 	@JsonProperty("collections")
 	private List<CollectionId> collections;

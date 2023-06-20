@@ -28,7 +28,7 @@ public class SimpleHashApiServiceImpl implements SimpleHashApiService {
 	public SimpleHashApiServiceImpl(CollectionsRepository collectionsRepository) {
 		this.collectionsRepository = collectionsRepository;
 		Retrofit retrofit = new Retrofit.Builder()
-				.baseUrl("https://api.simplehash.com/api/v0/nfts/")
+				.baseUrl("https://api.simplehash.com/api/v0/nfts/collections/")
 				.addConverterFactory(JacksonConverterFactory.create())
 				.build();
 		simpleHashService = retrofit.create(SimpleHashService.class);
@@ -40,15 +40,16 @@ public class SimpleHashApiServiceImpl implements SimpleHashApiService {
 		System.out.println(" \n starting from cursor: "+ prevValue);
 
 		do {
-			Call<CollectionsResponse> call = simpleHashService.getNFTs("segmint_sk_f053f4b7-98e5-4c82-a1b9-8a409bef90b0_a01tnii6qimceimn", "avalanche-fuji", "asc", 50, prevValue);
+			Call<CollectionsResponse> call = simpleHashService.getNFTs("segmint_sk_f053f4b7-98e5-4c82-a1b9-8a409bef90b0_a01tnii6qimceimn", 
+																	   "asc", 50, prevValue);
 		Response<CollectionsResponse> response = call.execute();
-        System.out.print(response.body());
+//        System.out.print(response.body());
 		if (response.isSuccessful()) {
 
 			CollectionsResponse collectionsResponse = response.body();	
 			//nextValue = nftResponse.getNext();
-			prevValue = collectionsResponse.getNext();
-
+			prevValue = collectionsResponse.getNextCursor();
+//			System.out.print("prevValue : " + prevValue);
 			List<CollectionId> collectionIds = collectionsResponse.getCollections();
 			
 			for (CollectionId ids : collectionIds) {
@@ -57,11 +58,11 @@ public class SimpleHashApiServiceImpl implements SimpleHashApiService {
 					Collections collections = new Collections();
 					collections.setId(UUID.randomUUID());
 					collections.setCollectionId(ids.getCollectionId());
-					collections.setNextCursor(collectionsResponse.getNext());
+					collections.setNextCursor(collectionsResponse.getNextCursor());
 					collections.setCreatedDate(new Date().getTime());
 					collections.setProvider("simpleHash");
 					collectionsRepository.save(collections);
-					System.out.println("\n \t\t\t Saved with "+ prevValue +"\n address " + ids.getCollectionId());
+					System.out.println("\n Saved with "+ prevValue +"\n address " + ids.getCollectionId());
 				
 
 			}
@@ -71,8 +72,7 @@ public class SimpleHashApiServiceImpl implements SimpleHashApiService {
 			System.out.println(response.message());
 
 //			throw new IOException("Failed to retrieve NFTs from SimpleHash API");
-		}
-		Thread.sleep(100);
+		  }
 		}while(prevValue != null);
 		
 	}

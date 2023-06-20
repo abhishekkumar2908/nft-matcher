@@ -9,10 +9,9 @@ import retrofit2.http.Query;
 
 
 public interface SimpleHashService {
-    @GET("collections")
+    @GET("avalanche-fuji")
     Call<CollectionsResponse> getNFTs(
             				 @Header("x-api-key") String apiKey,
-    						 @Query("chain") String chainName,
     						 @Query("order_direction") String orderDirection,
                              @Query("limit") int limit,
                              @Query("cursor") String cursor);
