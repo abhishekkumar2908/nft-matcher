@@ -4,14 +4,17 @@ import com.qualtab.NFTs.Collection.modal.CollectionsResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Query;
 
 
 public interface SimpleHashService {
-    @GET("avalanche-fuji")
-    Call<CollectionsResponse> getNFTs(@Query("order_direction") String orderDirection,
+    @GET("collections")
+    Call<CollectionsResponse> getNFTs(
+            				 @Header("x-api-key") String apiKey,
+    						 @Query("chain") String chainName,
+    						 @Query("order_direction") String orderDirection,
                              @Query("limit") int limit,
-                             @Query("include_orders") boolean includeOrders,
                              @Query("cursor") String cursor);
 }
 
