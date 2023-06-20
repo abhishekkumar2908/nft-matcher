@@ -1,4 +1,4 @@
-package com.qualtab.NFTs.Collection.modal;
+package com.qualtab.NFTs.Collection.entities;
 
 import java.util.List;
 

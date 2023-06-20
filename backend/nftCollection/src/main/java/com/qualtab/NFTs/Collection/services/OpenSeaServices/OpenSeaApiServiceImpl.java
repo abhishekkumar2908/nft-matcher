@@ -1,4 +1,4 @@
-package com.qualtab.NFTs.Collection.services;
+package com.qualtab.NFTs.Collection.services.OpenSeaServices;
 
 import java.io.IOException;
 import java.util.List;
@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
-import com.qualtab.NFTs.Collection.modal.NFT;
-import com.qualtab.NFTs.Collection.modal.NFTResponse;
+import com.qualtab.NFTs.Collection.entities.NFT;
+import com.qualtab.NFTs.Collection.entities.NFTResponse;
 import com.qualtab.NFTs.Collection.repositories.NFTDocumentRepository;
 
 import mongo.NFTDocument;

@@ -8,8 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 
-import com.qualtab.NFTs.Collection.services.OpenSeaApiService;
-import com.qualtab.NFTs.Collection.services.SimpleHashApiService;
+import com.qualtab.NFTs.Collection.services.SimpleHashServices.SimpleHashApiService;
 
 @SpringBootApplication
 public class CollectionApplication {
@@ -25,8 +24,8 @@ public class CollectionApplication {
 
 	@EventListener(ApplicationReadyEvent.class)
 	public void onApplicationReady(ApplicationReadyEvent event) throws IOException, InterruptedException {
-		String prevValue = simpleHashApiService.loadPrevValue();
-		simpleHashApiService.syncAvalancheFujiNFTs(prevValue);
+		String cursor = simpleHashApiService.loadPrevCursor();
+		simpleHashApiService.syncAvalancheFujiNFTs(cursor);
 	}
 
 }

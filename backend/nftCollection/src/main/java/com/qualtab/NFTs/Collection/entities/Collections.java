@@ -1,4 +1,4 @@
-package com.qualtab.NFTs.Collection.modal;
+package com.qualtab.NFTs.Collection.entities;
 
 import java.util.UUID;
 
@@ -12,6 +12,14 @@ public class Collections {
 	private UUID id;
 	private String collectionId;
 	private String nextCursor;
+	private String previous;
+	public String getPrevious() {
+		return previous;
+	}
+	public void setPrevious(String previous) {
+		this.previous = previous;
+	}
+
 	private long createdDate;
 	private String provider;
 
