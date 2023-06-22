@@ -13,6 +13,8 @@ public class Collection {
 	private String collectionId;
 	private String nextCursor;
 	private String previous;
+	private long createdDate;
+	private String chain;
 
 	// false means it's not done, and true means it's done.
 	private boolean isSyncDone;
@@ -25,8 +27,7 @@ public class Collection {
 		this.previous = previous;
 	}
 
-	private long createdDate;
-	private String provider;
+	
 
 	public long getCreatedDate() {
 		return createdDate;
@@ -60,12 +61,12 @@ public class Collection {
 		this.nextCursor = nextCursor;
 	}
 
-	public String getProvider() {
-		return provider;
+	public String getChain() {
+		return chain;
 	}
 
-	public void setProvider(String provider) {
-		this.provider = provider;
+	public void setChain(String provider) {
+		this.chain = provider;
 	}
 
 	public boolean isSyncDone() {
@@ -79,7 +80,7 @@ public class Collection {
 	@Override
 	public String toString() {
 		return "Collection [id=" + id + ", collectionId=" + collectionId + ", nextCursor=" + nextCursor + ", previous="
-				+ previous + ", isSyncDone=" + isSyncDone + ", createdDate=" + createdDate + ", provider=" + provider
+				+ previous + ", isSyncDone=" + isSyncDone + ", createdDate=" + createdDate + ", provider=" + chain
 				+ "]";
 	}
 }

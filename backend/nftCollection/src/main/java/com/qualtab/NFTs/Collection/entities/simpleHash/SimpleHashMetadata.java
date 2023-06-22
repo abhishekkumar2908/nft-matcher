@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SimpleHashMetadata {
-	
+	private String image_original_url;
 	private String metadata_original_url;
 
 }

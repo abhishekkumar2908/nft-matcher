@@ -30,6 +30,8 @@ public interface SimpleHashService {
             				 @Path("collectionId") String collectionId,
             				 @Header("x-api-key") String apiKey,
                              @Query("limit") int limit);
+    						 
+    						 
 
     
     @GET("collection/{collectionId}")

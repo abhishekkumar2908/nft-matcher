@@ -5,12 +5,12 @@ import java.util.UUID;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "nft")
+//@Document(collection = "nft")
 public class NFTDocument {
 
 	@Id
 	private UUID id;
-
+	private String collectionId;
 	private String nftId;
 	private String imageOriginalUrl;
 	private String tokenMetadata;
@@ -19,6 +19,19 @@ public class NFTDocument {
 	private String next;
 	private String previous;
 	private String provider;
+	
+	
+	
+	public String getCollectionId() {
+		return collectionId;
+	}
+
+	public void setCollectionId(String collectionId) {
+		this.collectionId = collectionId;
+	}
+
+	
+	
 
 	public String getImageOriginalUrl() {
 		return imageOriginalUrl;

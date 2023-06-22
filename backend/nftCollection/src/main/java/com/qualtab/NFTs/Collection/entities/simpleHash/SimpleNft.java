@@ -15,6 +15,7 @@ public class SimpleNft {
 	private String name;
 	private String image_url;
 	private SimpleHashMetadata extra_metadata;
+	private SimpleHashCollectionId collection;
 	
 
 }

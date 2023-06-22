@@ -11,7 +11,7 @@ spring:
     name: nft-sync-service
   data:
     mongodb:
-      uri: mongodb+srv://TradeScrap:TradeScrap@cluster0-8570y.mongodb.net/nft?serverSelectionTimeoutMS=2000&connectTimeoutMS=2000
+      uri: mongodb+srv://TradeScrap:TradeScrap@cluster0-8570y.mongodb.net/NFT_Matcher?serverSelectionTimeoutMS=2000&connectTimeoutMS=2000
       repositories:
         enabled: true
         
