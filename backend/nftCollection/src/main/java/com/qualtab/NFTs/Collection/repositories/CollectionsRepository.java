@@ -4,11 +4,13 @@ import java.util.UUID;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
-import com.qualtab.NFTs.Collection.entities.Collections;
+import com.qualtab.NFTs.Collection.entities.Collection;
 
 @Repository
-public interface CollectionsRepository extends MongoRepository<Collections, UUID> {
+public interface CollectionsRepository extends MongoRepository<Collection, UUID> {
 
-	Collections findFirstByOrderByCreatedDateDesc();
+	Collection findFirstByOrderByCreatedDateDesc();
+	
+	Collection findByCollectionId(String collectionId);
 
 }

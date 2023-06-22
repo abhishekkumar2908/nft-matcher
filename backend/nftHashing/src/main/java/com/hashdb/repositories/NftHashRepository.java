@@ -11,4 +11,5 @@ import com.hashdb.entities.NftHash;
 public interface NftHashRepository extends MongoRepository<NftHash, UUID> {
 
 	NftHash findFirstByOrderByNftIdDesc();
+	
 }

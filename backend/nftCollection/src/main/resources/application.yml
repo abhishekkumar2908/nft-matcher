@@ -14,3 +14,6 @@ spring:
       uri: mongodb+srv://TradeScrap:TradeScrap@cluster0-8570y.mongodb.net/nft?serverSelectionTimeoutMS=2000&connectTimeoutMS=2000
       repositories:
         enabled: true
+        
+simpleHash:
+  apiKey: segmint_sk_f053f4b7-98e5-4c82-a1b9-8a409bef90b0_a01tnii6qimceimn

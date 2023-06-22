@@ -105,6 +105,7 @@ function DefaultNavbar({ brand, transparent, light, action }) {
           <ArgonBox component={Link} to="/" py={transparent ? 1.5 : 0.75} lineHeight={1}>
             <ArgonTypography variant="button" fontWeight="bold" color={light ? "white" : "dark"}>
               {/* {brand} */}
+              NFT Matcher
               <img
                 src={nftImage}
                 alt="NFT Matcher"
@@ -116,7 +117,7 @@ function DefaultNavbar({ brand, transparent, light, action }) {
               />{" "}
             </ArgonTypography>
           </ArgonBox>
-          <ArgonBox>            
+          <ArgonBox>
             <h3>NFT Matcher</h3>
           </ArgonBox>
           <ArgonBox color="inherit" display={{ xs: "none", lg: "flex" }} m={0} p={0}>

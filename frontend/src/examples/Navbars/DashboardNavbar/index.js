@@ -56,7 +56,7 @@ import {
 } from "context";
 
 // Images
-import nftImage from "assets/images/nftImage.jpg"
+import nftImage from "assets/images/nftImage.jpg";
 import team2 from "assets/images/team-2.jpg";
 import logoSpotify from "assets/images/small-logos/logo-spotify.svg";
 import config from "config";
@@ -185,14 +185,17 @@ function DashboardNavbar({ absolute, light, isMini }) {
               sx={{ lineHeight: 0 }}
               style={{ fontSize: "20px" }}
             >
-              <img
+              <p style={{ color: "black" }}>
+                <b>NFT Matcher</b>
+              </p>
+              {/* <img
                 src={nftImage} alt="NFT Matcher"
                 style={{
                   width: "24px", // Adjust the width and height as needed
                   height: "24px",
                   verticalAlign: "middle",
                 }}
-              />{" "}
+              />{" "} */}
             </ArgonTypography>
           </Link>
         </ArgonBox>

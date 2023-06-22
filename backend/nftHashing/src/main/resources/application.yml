@@ -9,6 +9,6 @@ spring:
           jwk-set-uri: https://cognito-idp.ap-south-1.amazonaws.com/ap-south-1_QEpROgOaY/.well-known/jwks.json
   data:
     mongodb:
-      uri: mongodb+srv://TradeScrap:TradeScrap@cluster0-8570y.mongodb.net/nft?serverSelectionTimeoutMS=2000&connectTimeoutMS=2000
+      uri: mongodb+srv://TradeScrap:TradeScrap@cluster0-8570y.mongodb.net/nft
       repositories:
         enabled: true

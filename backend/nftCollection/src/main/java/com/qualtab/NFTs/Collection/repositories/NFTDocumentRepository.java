@@ -1,5 +1,6 @@
 package com.qualtab.NFTs.Collection.repositories;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
@@ -11,5 +12,9 @@ import mongo.NFTDocument;
 public interface NFTDocumentRepository extends MongoRepository<NFTDocument, UUID> {
 
 	NFTDocument findFirstByOrderByNftIdDesc();
+	
+	NFTDocument findByNftId(String nftId);
+	
+	
 
 }

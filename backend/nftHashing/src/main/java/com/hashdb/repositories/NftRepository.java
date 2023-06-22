@@ -15,4 +15,5 @@ public interface NftRepository extends MongoRepository<NFT, UUID> {
 	List<NFT> findByNftIdGreaterThanOrderByNftIdAsc(int lastHashedNftId);
 	Optional<NFT> findByNftId(int nftId);
 
+	List<NFT> findByTokenIdAndAddress(String tokenId,String address);
 }
