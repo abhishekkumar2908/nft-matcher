@@ -11,7 +11,7 @@ public class NFTDocument {
 	@Id
 	private UUID id;
 
-	private Integer nftId;
+	private String nftId;
 	private String imageOriginalUrl;
 	private String tokenMetadata;
 	private String tokenId;
@@ -36,11 +36,11 @@ public class NFTDocument {
 		this.id = id;
 	}
 
-	public Integer getNftId() {
+	public String getNftId() {
 		return nftId;
 	}
 
-	public void setNftId(Integer nftId) {
+	public void setNftId(String nftId) {
 		this.nftId = nftId;
 	}
 

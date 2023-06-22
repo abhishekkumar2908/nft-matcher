@@ -11,8 +11,10 @@ import javax.imageio.ImageIO;
 
 import org.apache.batik.transcoder.TranscoderException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.repository.Query;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,62 +24,65 @@ import com.hashdb.entities.NFT;
 import com.hashdb.entities.NftHash;
 import com.hashdb.repositories.NftHashRepository;
 import com.hashdb.repositories.NftRepository;
+import com.hashdb.service.SimilarImageService;
 import com.hashdb.util.HashingUtility;
 import com.hashdb.util.convertToPng;
 
 import dev.brachtendorf.jimagehash.hash.Hash;
 
 @RestController
-@CrossOrigin() 
+@CrossOrigin()
 public class FrontendController {
 
-@Autowired
-NftHashRepository nftHashRepository;
+	@Autowired
+	NftHashRepository nftHashRepository;
 
-@Autowired
-NftRepository nftRepository;
+	@Autowired
+	NftRepository nftRepository;
 
-	
-@PostMapping("/find/any/similar/image")
-	public ResponseEntity<List<SimilarNft>> similarImage(@RequestParam("image")  MultipartFile file)
-			throws IOException, TranscoderException {		
+	@Autowired
+	SimilarImageService similarImageService;
 
-			 BufferedImage hashImage;
-		        if (file.getOriginalFilename().endsWith(".svg")) {
-		            hashImage = convertToPng.convertSvgToPng(file.getInputStream());
-		        } else {
-		            hashImage = ImageIO.read(file.getInputStream());
-		        }		
-		        
-		     Hash hash = HashingUtility.hashImage(hashImage);		
-				
-		        List<Integer> matchedNFTs = nftHashRepository.findAll()
-		                .stream()
-		                .filter(nftHash -> {
-		                    double similarityScore = (hash.getHashValue().xor(nftHash.getHashValue()).bitCount()) / (double) nftHash.getLen();
-		                    return similarityScore < 0.190;
-		                })
-		                .map(NftHash::getNftId)
-		                .filter(Objects::nonNull)
-		                .collect(Collectors.toList());
-		        List<SimilarNft> similarNFTs = matchedNFTs.stream()
-		        	    .map((Integer nftId) -> {
-		        	        Optional<NFT> optionalNft = nftRepository.findByNftId(nftId);
-		        	        if (optionalNft.isPresent()) {
-		        	            NFT nft = optionalNft.get();
+	@PostMapping("/find/any/similar/image")
+	public ResponseEntity<List<SimilarNft>> similarImage(@RequestParam("image") MultipartFile file)
+			throws IOException, TranscoderException {
+
+		BufferedImage hashImage;
+		if (file.getOriginalFilename().endsWith(".svg")) {
+			hashImage = convertToPng.convertSvgToPng(file.getInputStream());
+		} else {
+			hashImage = ImageIO.read(file.getInputStream());
+		}
+
+		Hash hash = HashingUtility.hashImage(hashImage);
+
+		List<Integer> matchedNFTs = nftHashRepository.findAll().stream().filter(nftHash -> {
+			double similarityScore = (hash.getHashValue().xor(nftHash.getHashValue()).bitCount())
+					/ (double) nftHash.getLen();
+			return similarityScore < 0.190;
+		}).map(NftHash::getNftId).filter(Objects::nonNull).collect(Collectors.toList());
+		List<SimilarNft> similarNFTs = matchedNFTs.stream().map((Integer nftId) -> {
+			Optional<NFT> optionalNft = nftRepository.findByNftId(nftId);
+			if (optionalNft.isPresent()) {
+				NFT nft = optionalNft.get();
 //		        	            similarNft.Set
-		        	            return new SimilarNft(nft.getId(), nft.getNftId(),nft.getImageOriginalUrl(), nft.getTokenId(), nft.getAddress(), nft.getTokenMetadata());
-		        	     	   }
-							return null;
-		        	    })
-		        	    .filter(Objects::nonNull)
-		        	    .collect(Collectors.toList());
+				return new SimilarNft(nft.getId(), nft.getNftId(), nft.getImageOriginalUrl(), nft.getTokenId(),
+						nft.getAddress(), nft.getTokenMetadata());
+			}
+			return null;
+		}).filter(Objects::nonNull).collect(Collectors.toList());
 
-		      	
 //        System.out.println("Total Match Found: " + similarNFTs.size());
-    
-	    return ResponseEntity.ok().body(similarNFTs);
-		
+
+		return ResponseEntity.ok().body(similarNFTs);
+
+	}
+
+	@GetMapping("/find/any/similar/nft")
+	public ResponseEntity<List<NFT>> similarImage(@RequestParam("contractAddress") String contractAddress,
+			@RequestParam("tokenId") String tokenId) {
+
+		return ResponseEntity.ok().body(similarImageService.findSimilarImage(tokenId, contractAddress));
+
 	}
 }
-

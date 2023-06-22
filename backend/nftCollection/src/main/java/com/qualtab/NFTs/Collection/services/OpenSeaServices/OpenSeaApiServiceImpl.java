@@ -57,7 +57,7 @@ public class OpenSeaApiServiceImpl implements OpenSeaApiService {
 					
 					NFTDocument nftDocument = new NFTDocument();
 					nftDocument.setId(UUID.randomUUID());
-					nftDocument.setNftId(asset.getId());
+					nftDocument.setNftId(String.valueOf(asset.getId()));
 					nftDocument.setTokenId(asset.getTokenId());
 					nftDocument.setTokenMetadata(asset.getTokenMetadata());
 					nftDocument.setImageOriginalUrl(asset.getImageOriginalUrl());
