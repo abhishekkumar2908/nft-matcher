@@ -53,30 +53,28 @@ public class SimpleHashApiServiceImpl implements SimpleHashApiService {
 
 //................................................................................................................................................
 	@Override
-	public void syncAvalancheFujiNFTs(String previous) throws IOException, InterruptedException {
+	public void syncNFTs(String previous) throws IOException, InterruptedException {
 
 		System.out.println(" \n starting from cursor: " + previous);
 //.............currentChain will carry chain name that would be passed to the API.........................................................		
 		String[] chains = {"ethereum", "avalanche"};
 			   
 
-		boolean isFirstTime = true;
+//		boolean isFirstTime = true;
 		for(String currentChain : chains) {
 		do {
 			Call<CollectionsResponse> call = null;
-			if (isFirstTime) {
-				call = simpleHashService.getCollections(currentChain, apiKey, 1, cursor);
-				isFirstTime = false;
-			} else {
-				call = simpleHashService.getCollections(currentChain, apiKey, 1, previous);
-			}
+//			if (isFirstTime) {
+//				call = simpleHashService.getCollections(currentChain, apiKey, 50, cursor);
+//				isFirstTime = false;
+//			} else {
+				call = simpleHashService.getCollections(currentChain, apiKey, 50, previous);
+//			}
 
 			Response<CollectionsResponse> response = call.execute();
-//        System.out.print(response.body());
 			if (response.isSuccessful()) {
 
 				CollectionsResponse collectionsResponse = response.body();
-//				System.out.print("prevValue : " + collectionsResponse.getPrivious());
 				if (collectionsResponse.getPrivious() != null)
 					previous = Extractor.prevFromUrl(collectionsResponse.getPrivious());
 
@@ -98,10 +96,7 @@ public class SimpleHashApiServiceImpl implements SimpleHashApiService {
 					if (ObjectUtils.isEmpty(collection)) {
 						collections.setId(UUID.randomUUID());
 						collections.setSyncDone(false);
-						collectionsRepository.save(collections);
-						System.out.println("\n collectionId saved with " + previous + "\n collectionId " + ids.getCollectionId());
-						
-//						boolean notCompleted = true;
+						collectionsRepository.save(collections);						
 						
 						do {
 
@@ -128,6 +123,7 @@ public class SimpleHashApiServiceImpl implements SimpleHashApiService {
 									nftDocument.setProvider(currentChain);
 									nftDocument.setTokenId(nft.getToken_id());									
 									nftDocument.setTokenMetadata(nft.getExtra_metadata().getMetadata_original_url());
+									nftDocument.setHashed(false);
 									NFTDocument nftDocument2 = nftDocumentRepository.findByNftId(nft.getNft_id());
 									if (!ObjectUtils.isEmpty(nftDocument2)) {
 										nftDocument.setId(nftDocument2.getId());
@@ -149,21 +145,12 @@ public class SimpleHashApiServiceImpl implements SimpleHashApiService {
 						collections.setSyncDone(true);
 						collectionsRepository.save(collections);
 
-					} else {
-//						collections.setId(collection.getId());
-//						collectionsRepository.save(collections);
-
 					}
-
 				}
 
-			} else {
+			} else 
 				System.out.println(response.errorBody() + "\n");
-				System.out.println(response.message());
-
-//			throw new IOException("Failed to retrieve NFTs from SimpleHash API");
-			}
-			Thread.sleep(100);
+//			Thread.sleep(100);
 
 		} while (previous != null);
 	  }
@@ -175,7 +162,7 @@ public class SimpleHashApiServiceImpl implements SimpleHashApiService {
 	public String loadPrevCursor() {
 		Collection collection = collectionsRepository.findFirstByOrderByCreatedDateDesc();
 		if (collection == null) {
-			return null;
+			return cursor;
 		} else {
 			return collection.getPrevious();
 		}

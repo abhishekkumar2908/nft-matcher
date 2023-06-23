@@ -6,7 +6,7 @@ import java.io.IOException;
 public interface SimpleHashApiService {
 	//void syncOpenSeaNFTs() throws IOException, InterruptedException;
 
-	void syncAvalancheFujiNFTs(String prevValue) throws IOException, InterruptedException;
+	void syncNFTs(String prevValue) throws IOException, InterruptedException;
 
 	String loadPrevCursor();
 }

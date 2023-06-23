@@ -19,9 +19,11 @@ public class NFTDocument {
 	private String next;
 	private String previous;
 	private String provider;
+	private boolean isHashed;
 	
 	
 	
+
 	public String getCollectionId() {
 		return collectionId;
 	}
@@ -104,5 +106,21 @@ public class NFTDocument {
 	public void setTokenMetadata(String tokenMetadata) {
 		this.tokenMetadata = tokenMetadata;
 	}
+
+	
+
+	
+
+	public boolean isHashed() {
+		return isHashed;
+	}
+
+	public void setHashed(boolean isHashed) {
+		this.isHashed = isHashed;
+	}
+
+	
+
+	
 
 }

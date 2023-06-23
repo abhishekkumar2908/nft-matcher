@@ -25,7 +25,7 @@ public class CollectionApplication {
 	@EventListener(ApplicationReadyEvent.class)
 	public void onApplicationReady(ApplicationReadyEvent event) throws IOException, InterruptedException {
 		String cursor = simpleHashApiService.loadPrevCursor();
-		simpleHashApiService.syncAvalancheFujiNFTs(cursor);
+		simpleHashApiService.syncNFTs(cursor);
 	}
 
 }
