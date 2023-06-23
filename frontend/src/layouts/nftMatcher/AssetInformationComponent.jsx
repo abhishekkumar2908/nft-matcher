@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import "layouts/style/AssetInformationComponent.css";
 
 function AssetInformationComponent(...{ nft, index }) {
@@ -9,20 +8,20 @@ function AssetInformationComponent(...{ nft, index }) {
 
   useEffect(() => {
     const fetchAssetInfo = async () => {
-      try {
-        const response = await axios.get(
-          `https://testnets-api.opensea.io/api/v1/asset/${nft.address}/${nft.tokenId}`
-        );
-        if (response && response.data) {
-          const updatedData = {
-            ...response.data,
-            index: nft.nftId,
-          };
-          setAssetInfo((prev) => [...prev, updatedData]);
-        }
-      } catch (error) {
-        console.error(error);
-      }
+      // try {
+      //   const response = await axios.get(
+      //     `https://testnets-api.opensea.io/api/v1/asset/${nft.address}/${nft.tokenId}`
+      //   );
+      //   if (response && response.data) {
+      //     const updatedData = {
+      //       ...response.data,
+      //       index: nft.nftId,
+      //     };
+      //     setAssetInfo((prev) => [...prev, updatedData]);
+      //   }
+      // } catch (error) {
+      //   console.error(error);
+      // }
     };
 
     if (nft.tokenId && nft.address) {

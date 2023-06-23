@@ -12,8 +12,9 @@ import com.hashdb.entities.NFT;
 @Repository
 public interface NftRepository extends MongoRepository<NFT, UUID> {
 
-	List<NFT> findByNftIdGreaterThanOrderByNftIdAsc(int lastHashedNftId);
-	Optional<NFT> findByNftId(int nftId);
+	List<NFT> findByIsHashedAndProvider(boolean isHashed, String provider);
+	
+	Optional<NFT> findByNftId(String nftId);
 
-	List<NFT> findByTokenIdAndAddress(String tokenId,String address);
+	List<NFT> findByTokenIdAndAddressAndProvider(String tokenId,String address,String provider);
 }

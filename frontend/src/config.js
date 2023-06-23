@@ -39,7 +39,7 @@ const prod = {
     LoginURL: "https://oktaknowledgeontap.auth.us-east-1.amazoncognito.com",
   },
   api: {
-    BASE_URL: "http://localhost:8083",
+    BASE_URL: "http://localhost:8080",
   },
 };
 

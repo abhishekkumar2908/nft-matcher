@@ -7,13 +7,13 @@ import lombok.Data;
 @Data
 public class SimilarNft {
 	private UUID id;
-	private Integer nftId;
+	private String nftId;
 	private String imageOriginalUrl;
-	private Integer tokenId;
+	private String tokenId;
 	private String address;
 	private String tokenMetadata;
 
-	public SimilarNft(UUID id, Integer nftId, String imageOriginalUrl, Integer tokenId, String address,
+	public SimilarNft(UUID id, String nftId, String imageOriginalUrl, String tokenId, String address,
 			String tokenMetadata) {
 		this.id = id;
 		this.nftId = nftId;
@@ -31,11 +31,11 @@ public class SimilarNft {
 		this.id = id;
 	}
 
-	public Integer getNftId() {
+	public String getNftId() {
 		return nftId;
 	}
 
-	public void setNftId(Integer nftId) {
+	public void setNftId(String nftId) {
 		this.nftId = nftId;
 	}
 
@@ -47,11 +47,11 @@ public class SimilarNft {
 		this.imageOriginalUrl = imageOriginalUrl;
 	}
 
-	public Integer getTokenId() {
+	public String getTokenId() {
 		return tokenId;
 	}
 
-	public void setTokenId(Integer tokenId) {
+	public void setTokenId(String tokenId) {
 		this.tokenId = tokenId;
 	}
 
