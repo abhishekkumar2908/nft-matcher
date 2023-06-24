@@ -16,5 +16,5 @@ public interface NftRepository extends MongoRepository<NFT, UUID> {
 	
 	Optional<NFT> findByNftId(String nftId);
 
-	List<NFT> findByTokenIdAndAddressAndProvider(String tokenId,String address,String provider);
+	NFT findByTokenIdAndAddressAndProvider(String tokenId,String address,String provider);
 }

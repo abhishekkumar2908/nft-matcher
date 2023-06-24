@@ -12,4 +12,6 @@ public interface NftHashRepository extends MongoRepository<NftHash, UUID> {
 
 	NftHash findFirstByOrderByNftIdDesc();
 	
+	NftHash findByNftId(String nftId);
+	
 }

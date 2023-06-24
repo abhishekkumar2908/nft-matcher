@@ -80,7 +80,7 @@ public class FrontendController {
 	}
 
 	@GetMapping("/find/any/similar/nft")
-	public ResponseEntity<List<NFT>> similarImage(@RequestParam("contractAddress") String contractAddress,
+	public ResponseEntity<List<SimilarNft>> similarImage(@RequestParam("contractAddress") String contractAddress,
 			@RequestParam("tokenId") String tokenId,@RequestParam("chain") String chain) {
 
 		return ResponseEntity.ok().body(similarImageService.findSimilarImage(tokenId, contractAddress,chain));
