@@ -11,7 +11,6 @@ import javax.imageio.ImageIO;
 
 import org.apache.batik.transcoder.TranscoderException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.repository.Query;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,6 +45,8 @@ public class FrontendController {
 	@PostMapping("/find/any/similar/image")
 	public ResponseEntity<List<SimilarNft>> similarImage(@RequestParam("image") MultipartFile file)
 			throws IOException, TranscoderException {
+		
+		System.out.println("inside the Similar Image Function");
 
 		BufferedImage hashImage;
 		if (file.getOriginalFilename().endsWith(".svg")) {
@@ -56,12 +57,12 @@ public class FrontendController {
 
 		Hash hash = HashingUtility.hashImage(hashImage);
 
-		List<Integer> matchedNFTs = nftHashRepository.findAll().stream().filter(nftHash -> {
+		List<String> matchedNFTs = nftHashRepository.findAll().stream().filter(nftHash -> {
 			double similarityScore = (hash.getHashValue().xor(nftHash.getHashValue()).bitCount())
 					/ (double) nftHash.getLen();
 			return similarityScore < 0.190;
 		}).map(NftHash::getNftId).filter(Objects::nonNull).collect(Collectors.toList());
-		List<SimilarNft> similarNFTs = matchedNFTs.stream().map((Integer nftId) -> {
+		List<SimilarNft> similarNFTs = matchedNFTs.stream().map((String nftId) -> {
 			Optional<NFT> optionalNft = nftRepository.findByNftId(nftId);
 			if (optionalNft.isPresent()) {
 				NFT nft = optionalNft.get();
@@ -80,9 +81,9 @@ public class FrontendController {
 
 	@GetMapping("/find/any/similar/nft")
 	public ResponseEntity<List<NFT>> similarImage(@RequestParam("contractAddress") String contractAddress,
-			@RequestParam("tokenId") String tokenId) {
+			@RequestParam("tokenId") String tokenId,@RequestParam("chain") String chain) {
 
-		return ResponseEntity.ok().body(similarImageService.findSimilarImage(tokenId, contractAddress));
+		return ResponseEntity.ok().body(similarImageService.findSimilarImage(tokenId, contractAddress,chain));
 
 	}
 }

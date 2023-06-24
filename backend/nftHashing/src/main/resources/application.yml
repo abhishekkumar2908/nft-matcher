@@ -1,14 +1,14 @@
 spring:
   application:
     name: nft-sync-service
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: https://cognito-idp.ap-south-1.amazonaws.com/ap-south-1_QEpROgOaY
-          jwk-set-uri: https://cognito-idp.ap-south-1.amazonaws.com/ap-south-1_QEpROgOaY/.well-known/jwks.json
+ 
   data:
     mongodb:
-      uri: mongodb+srv://TradeScrap:TradeScrap@cluster0-8570y.mongodb.net/nft
+      uri: mongodb+srv://TradeScrap:TradeScrap@cluster0-8570y.mongodb.net/NFT_Matcher?serverSelectionTimeoutMS=2000&connectTimeoutMS=2000
       repositories:
         enabled: true
+        
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB

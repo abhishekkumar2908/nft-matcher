@@ -15,8 +15,8 @@ public class SimilarImageServiceImpl implements SimilarImageService {
 	NftRepository nftRepository;
 
 	@Override
-	public List<NFT> findSimilarImage(String tokenId, String contractAddress) {
-		return nftRepository.findByTokenIdAndAddress(tokenId, contractAddress);
+	public List<NFT> findSimilarImage(String tokenId, String contractAddress,String chain) {
+		return nftRepository.findByTokenIdAndAddressAndProvider(tokenId, contractAddress,chain);
 	}
 
 }
