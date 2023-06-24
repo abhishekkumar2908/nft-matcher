@@ -291,59 +291,70 @@ function ImageUploadComponent() {
             }}
           >
             <Grid container spacing={3}>
-              {similarNFTs.map((nft) => (
-                <div key={nft.id} style={{ display: "flex" }} className="container_item">
-                  <Grid item xs={2} md={2} style={{ maxWidth: "100%" }}>
-                    {/* <div style={{ position: "relative" }}> */}
-                    <ImageContainer className="imageContainer" imageUrl={nft.imageOriginalUrl} />
-                    {/* </div> */}
-                    {/* </Grid> */}
-                    {/* <Grid item xs={5} md={5}> */}
-                    <div style={{ marginTop: "10px" }}>
-                      <p
-                        style={{
-                          fontSize: "16px",
-                          fontWeight: "bold",
-                          margin: "0 0 8px",
-                        }}
-                      >
-                        NFT ID: {nft.nftId}
-                      </p>
-                      <p style={{ fontSize: "14px", margin: "0 0 8px" }}>Token ID: {nft.tokenId}</p>
-                      <p
-                        style={{
-                          fontSize: "14px",
-                          margin: "0",
-                          overflowWrap: "break-word",
-                        }}
-                      >
-                        Address: {nft.address}
-                      </p>
-                      {/* <button onClick={() => handleMoreClick(nft)} className="expansion-button">
+              {similarNFTs.map((nft) => {
+                const splitId = nft.nftId.split(".");
+                console.log("splitId splitId splitId");
+                console.log(splitId);
+                const mainNftId = splitId[2];
+                console.log(mainNftId);
+                return (
+                  <div key={nft.id} style={{ display: "flex" }} className="container_item">
+                    <Grid item xs={2} md={2} style={{ maxWidth: "100%" }}>
+                      {/* <div style={{ position: "relative" }}> */}
+                      <ImageContainer className="imageContainer" imageUrl={nft.imageOriginalUrl} />
+                      {/* </div> */}
+                      {/* </Grid> */}
+                      {/* <Grid item xs={5} md={5}> */}
+                      <div style={{ marginTop: "10px" }}>
+                        <p
+                          style={{
+                            fontSize: "16px",
+                            fontWeight: "bold",
+                            margin: "0 0 8px",
+                          }}
+                        >
+                          NFT ID: {nft.nftId}
+                        </p>
+                        <p style={{ fontSize: "14px", margin: "0 0 8px" }}>
+                          Token ID: {nft.tokenId}
+                        </p>
+                        <p
+                          style={{
+                            fontSize: "14px",
+                            margin: "0",
+                            overflowWrap: "break-word",
+                          }}
+                        >
+                          Address: {nft.address}
+                        </p>
+                        {/* <button onClick={() => handleMoreClick(nft)} className="expansion-button">
                         {expandedStates[nft.nftId] ? "Less" : "More"}
                       </button> */}
-                      <a
-                        href={"https://opensea.io/assets/ethereum/" + nft.address + "/" + nft.nftId}
-                        style={{ fontSize: "14px" }}
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        Visit website for more details.
-                      </a>
-                    </div>
-                  </Grid>
+                        <a
+                          href={
+                            "https://opensea.io/assets/ethereum/" + nft.address + "/" + mainNftId
+                          }
+                          style={{ fontSize: "14px" }}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          Visit website for more details.
+                        </a>
+                      </div>
+                    </Grid>
 
-                  {expandedStates[nft.nftId] && (
-                    <div style={{ marginLeft: "20px" }}>
-                      {selectedNFT ? (
-                        <div style={{ marginTop: "1px", display: "flex" }}>
-                          <AssetInformationComponent nft={selectedNFT} index={index} />
-                        </div>
-                      ) : null}
-                    </div>
-                  )}
-                </div>
-              ))}
+                    {expandedStates[nft.nftId] && (
+                      <div style={{ marginLeft: "20px" }}>
+                        {selectedNFT ? (
+                          <div style={{ marginTop: "1px", display: "flex" }}>
+                            <AssetInformationComponent nft={selectedNFT} index={index} />
+                          </div>
+                        ) : null}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
             </Grid>
           </div>
         ) : (

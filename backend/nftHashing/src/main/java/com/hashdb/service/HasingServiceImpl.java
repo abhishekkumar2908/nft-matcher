@@ -78,7 +78,7 @@ public class HasingServiceImpl implements HasingService {
 
 						nftHashRepository.save(nftHash);
 						System.out.println(imageUrl + " having id " + nftHash.getNftId() + " saved.");
-						
+
 						// set isHashed as true
 						nft.setHashed(true);
 						nftRepository.save(nft);
@@ -114,7 +114,6 @@ public class HasingServiceImpl implements HasingService {
 
 					image = ImageIO.read(imageUrl);
 				} catch (IOException e) {
-
 				}
 				if (!ObjectUtils.isEmpty(image) && image.getWidth(null) != -1) {
 					System.out.println("image is Working");
