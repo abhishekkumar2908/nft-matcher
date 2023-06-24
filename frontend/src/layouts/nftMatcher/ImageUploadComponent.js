@@ -75,7 +75,9 @@ function ImageUploadComponent() {
     //     setLoading(false);
     //   });
     nftService.findSimilarNftByImage(file).then((response) => {
-      setSimilarNFTs(response.data);
+      console.log("response response response");
+      console.log(response);
+      setSimilarNFTs(response);
       setUploadState(true);
       setSelectedNFT(null);
       setExpandedStates({});
@@ -278,7 +280,7 @@ function ImageUploadComponent() {
         {/* <div>
           <p>Note: </p>
         </div> */}
-        {uploadState && similarNFTs.length > 0 ? (
+        {uploadState && similarNFTs && similarNFTs.length > 0 ? (
           <div
             style={{
               display: "flex",

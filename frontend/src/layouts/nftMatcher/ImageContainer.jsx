@@ -21,7 +21,7 @@ function ImageContainer(imageUrl) {
   }, [index]);
 
   return (
-    <div style={{ width: "300px", height: "300px", textAlign: "center" }}>
+    <div style={{ height: "300px", textAlign: "center" }}>
       <img
         src={
           imageUrl && imageUrl.imageUrl
