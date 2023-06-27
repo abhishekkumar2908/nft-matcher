@@ -27,7 +27,7 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import Icon from "@mui/material/Icon";
-
+import DefaultNavbarLink from "examples/Navbars/DefaultNavbar/DefaultNavbarLink";
 // Argon Dashboard 2 MUI components
 import ArgonBox from "components/ArgonBox";
 import ArgonTypography from "components/ArgonTypography";
@@ -201,56 +201,116 @@ function DashboardNavbar({ absolute, light, isMini }) {
         </ArgonBox>
         {isMini ? null : (
           <ArgonBox sx={(theme) => navbarRow(theme, { isMini })}>
-            <ArgonBox color={light ? "white" : "inherit"}>
-              {localStorage.getItem("email") ? (
-                <Link to="/authentication/sign-in">
-                  <p style={{ fontSize: "14px", fontWeight: 600 }}>
-                    {" "}
-                    {localStorage.getItem("email")}
+            <ArgonBox color={light ? "black" : "inherit"}>
+              {/* {localStorage.getItem("email") ? (
+                  <Link to="/authentication/sign-in">
+                    <p style={{ fontSize: "14px", fontWeight: 600 }}>
+                      {" "}
+                      {localStorage.getItem("email")}
+                    </p>
+                  </Link>
+                ) : (
+                  <Link to="/authentication/sign-in">
+                    <IconButton sx={navbarIconButton} size="small">
+                      <Icon
+                        sx={({ palette: { dark, white } }) => ({
+                          color: light && transparentNavbar ? white.main : dark.main,
+                        })}
+                      >
+                        account_circle
+                      </Icon>
+                      <ArgonTypography
+                        variant="button"
+                        fontWeight="medium"
+                        // color={light && transparentNavbar ? "white" : "dark"}
+                      >
+                        Sign in
+                      </ArgonTypography>
+                    </IconButton>
+                  </Link>
+                )} */}
+
+              <ArgonBox display={{ xs: "none", lg: "flex" }} m={0} p={0}>
+                {/* <DefaultNavbarLink
+              icon="donut_large"
+              name="dashboard"
+              route="/dashboard"
+              light={light}
+            /> */}
+                {/* <DefaultNavbarLink icon="person" name="profile" route="/profile" light={light} /> */}
+
+                {/* <DefaultNavbarLink
+                  // icon="account_circle"
+                  name="See All Nft"
+                  route="/authentication/sign-up"
+                  // light={false}
+                  // style={{ fontSize: "14px" }}
+                /> */}
+
+                <Link to="/nfts">
+                  <p
+                    style={{
+                      fontSize: "16px",
+                      fontWeight: 600,
+                      marginRight: "100px",
+                      color: "blur",
+                    }}
+                  >
+                    See All Nft
                   </p>
                 </Link>
-              ) : (
-                <Link to="/authentication/sign-in">
-                  <IconButton sx={navbarIconButton} size="small">
-                    <Icon
-                      sx={({ palette: { dark, white } }) => ({
-                        color: light && transparentNavbar ? white.main : dark.main,
-                      })}
-                    >
-                      account_circle
-                    </Icon>
-                    <ArgonTypography
-                      variant="button"
-                      fontWeight="medium"
-                      color={light && transparentNavbar ? "white" : "dark"}
-                    >
-                      Sign in
-                    </ArgonTypography>
-                  </IconButton>
-                </Link>
-              )}
-              {localStorage.getItem("email") ? (
-                // <Link to="/authentication/sign-in">
-                <p
-                  style={{
-                    fontSize: "14px",
-                    color: "black",
-                    fontWeight: 600,
-                    cursor: "pointer",
-                    textAlign: "right",
-                  }}
-                  onClick={() => {
-                    console.log("logout Clicked...");
-                    handleLogout();
-                  }}
-                >
-                  LOGOUT
-                </p>
-              ) : (
-                // </Link>
-                ""
-              )}
-              {renderMenu()}
+
+                {localStorage.getItem("email") ? (
+                  <Link to="/authentication/sign-in">
+                    <p style={{ fontSize: "14px", fontWeight: 600, marginRight: "20px" }}>
+                      {" "}
+                      {localStorage.getItem("email")}
+                    </p>
+                  </Link>
+                ) : (
+                  <Link to="/authentication/sign-in">
+                    <IconButton sx={navbarIconButton} size="small">
+                      <Icon
+                        sx={({ palette: { dark, white } }) => ({
+                          color: light && transparentNavbar ? white.main : dark.main,
+                        })}
+                      >
+                        account_circle
+                      </Icon>
+                      <ArgonTypography
+                        variant="button"
+                        fontWeight="medium"
+                        // color={light && transparentNavbar ? "white" : "dark"}
+                      >
+                        Sign in
+                      </ArgonTypography>
+                    </IconButton>
+                  </Link>
+                )}
+                {localStorage.getItem("email") ? (
+                  // <Link to="/authentication/sign-in">
+                  <p
+                    style={{
+                      fontSize: "14px",
+                      color: "black",
+                      fontWeight: 600,
+                      cursor: "pointer",
+                      textAlign: "right",
+                    }}
+                    onClick={() => {
+                      console.log("logout Clicked...");
+                      handleLogout();
+                    }}
+                  >
+                    LOGOUT
+                  </p>
+                ) : (
+                  // </Link>
+                  ""
+                )}
+              </ArgonBox>
+
+              {/* {renderMenu()} */}
             </ArgonBox>
           </ArgonBox>
         )}

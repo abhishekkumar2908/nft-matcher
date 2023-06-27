@@ -131,9 +131,10 @@ function DefaultNavbar({ brand, transparent, light, action }) {
 
             <DefaultNavbarLink
               icon="account_circle"
-              name="sign up"
+              name="Sign Up"
               route="/authentication/sign-up"
               light={light}
+              style={{ color: "blue" }}
             />
             <DefaultNavbarLink
               icon="key"
