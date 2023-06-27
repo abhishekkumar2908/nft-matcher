@@ -46,8 +46,9 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
-
-const maxWidth = React.useState < DialogProps["maxWidth"] > "500px";
+import Snackbar from "@mui/material/Snackbar";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
 
 function NftList() {
   const nftService = new NftService();
@@ -55,6 +56,7 @@ function NftList() {
   const [values, setValues] = useState([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
+  const [apiError, setApiError] = useState(false);
 
   useEffect(() => {
     // setLoading(true);
@@ -70,16 +72,24 @@ function NftList() {
     if (!accessToken) {
       navigate("/authentication/sign-in");
     }
-  }, [values]);
+  }, []);
 
   useEffect(() => {
     setLoading(true);
-    nftService.findAllNfts(page, 12).then((json) => {
-      console.log("response of find All Nft is");
-      console.log(json);
-      setValues(json.res_object);
-      setLoading(false);
-    });
+    nftService
+      .findAllNfts(page, 12)
+      .then((json) => {
+        console.log("response of find All Nft is");
+        console.log(json);
+        setValues(json.res_object);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log("error error error");
+        console.log(error);
+        setApiError(true);
+        setLoading(false);
+      });
   }, [page]);
 
   // }, [open, deleteTenant]);
@@ -108,21 +118,47 @@ function NftList() {
     navigate("/uploadImage", { state: nft });
   };
 
+  const handleApiErrorClose = () => {
+    setApiError(false);
+  };
+
+  const action = (
+    <React.Fragment>
+      <IconButton size="small" aria-label="close" color="inherit" onClick={handleApiErrorClose}>
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
+
   return (
     <DashboardLayout>
       <DashboardNavbar />
       <Backdrop open={loading} style={{ zIndex: 999, color: "#fff" }}>
         <CircularProgress color="inherit" />
       </Backdrop>
+      <p style={{ padding: "30px", fontWeight: "bold" }}>{"All Nft's"}</p>
+      <Snackbar
+        open={apiError}
+        severity="success"
+        autoHideDuration={6000}
+        onClose={handleApiErrorClose}
+        message="Something went wrong please try after some time."
+        action={action}
+      />
+
       <ArgonBox py={3} mt={3}>
-        <Grid container spacing={3} mt={3}>
-          <Grid item xs={9} md={9} />
-          <Grid item xs={3} md={3}>
-            <Stack spacing={2}>
-              <Pagination count={100} color="primary" onChange={handleChange} />
-            </Stack>
+        {values && values.length != 0 ? (
+          <Grid container spacing={3} mt={3}>
+            <Grid item xs={9} md={9} />
+            <Grid item xs={3} md={3}>
+              <Stack spacing={2}>
+                <Pagination count={100} color="primary" onChange={handleChange} />
+              </Stack>
+            </Grid>
           </Grid>
-        </Grid>
+        ) : (
+          ""
+        )}
         <Grid container spacing={3} mt={3}>
           {console.log(values)}
           {values &&
@@ -239,14 +275,23 @@ function NftList() {
               );
             })}
         </Grid>
-        <Grid container spacing={3} mt={3}>
-          <Grid item xs={9} md={9} />
-          <Grid item xs={3} md={3}>
-            <Stack spacing={2}>
-              <Pagination count={100} color="primary" onChange={handleChange} />
-            </Stack>
+        {values && values.length != 0 ? (
+          <Grid container spacing={3} mt={3}>
+            <Grid item xs={9} md={9} />
+            <Grid item xs={3} md={3}>
+              <Stack spacing={2}>
+                <Pagination count={100} color="primary" onChange={handleChange} />
+              </Stack>
+            </Grid>
           </Grid>
-        </Grid>
+        ) : (
+          ""
+        )}
+        {apiError ? (
+          <p style={{ textAlign: "center" }}> Something went wrong please try after some time.</p>
+        ) : (
+          ""
+        )}
       </ArgonBox>
       {/* <Footer /> */}
     </DashboardLayout>

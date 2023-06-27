@@ -30,9 +30,17 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
+import config from "config";
+import { useNavigate } from "react-router-dom";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert, { AlertProps } from "@mui/material/Alert";
+
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
 
 function ImageUploadComponent() {
   const location = useLocation();
+  const navigate = useNavigate();
   const [file, setFile] = useState(null);
   const [filePath, setFilePath] = useState("");
   const [fileName, setFileName] = useState("");
@@ -54,6 +62,29 @@ function ImageUploadComponent() {
   });
 
   const nftService = new NftService();
+
+  const Alert =
+    React.forwardRef <
+    HTMLDivElement >
+    function Alert(props, ref) {
+      return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+    };
+
+  useEffect(() => {
+    // setLoading(true);
+    const userId = localStorage.getItem(
+      "CognitoIdentityServiceProvider." + config.awsConfig.ClientId + ".LastAuthUser"
+    );
+    console.log("userId userId userId");
+    console.log(userId);
+    const accessToken = localStorage.getItem(
+      "CognitoIdentityServiceProvider." + config.awsConfig.ClientId + "." + userId + ".accessToken"
+    );
+    console.log(accessToken);
+    if (!accessToken) {
+      navigate("/authentication/sign-in");
+    }
+  }, []);
 
   useEffect(() => {
     console.log("inside the useEffect of LocationChanged");
@@ -80,19 +111,30 @@ function ImageUploadComponent() {
     setFileName(selectedFile.name);
   };
 
+  const [apiError, setApiError] = useState(false);
+
   const handleSubmit = () => {
     // event.preventDefault();
     setLoading(true);
 
-    nftService.findSimilarNftByImage(file).then((response) => {
-      console.log("response response response");
-      console.log(response);
-      setSimilarNFTs(response);
-      setUploadState(true);
-      setSelectedNFT(null);
-      setExpandedStates({});
-      setLoading(false);
-    });
+    nftService
+      .findSimilarNftByImage(file)
+      .then((response) => {
+        console.log("response response response");
+        console.log(response);
+        setSimilarNFTs(response);
+        setUploadState(true);
+        setSelectedNFT(null);
+        setExpandedStates({});
+        setApiError(false);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log("error error error");
+        console.log(error);
+        setApiError(true);
+        setLoading(false);
+      });
   };
 
   // ................this function will be called when user clicks on More button..............
@@ -168,6 +210,12 @@ function ImageUploadComponent() {
           setSelectedNFT(null);
           setExpandedStates({});
           setLoading(false);
+        })
+        .catch((error) => {
+          console.log("error error error");
+          console.log(error);
+          setApiError(true);
+          setLoading(false);
         });
     } else {
       setLoading(false);
@@ -177,6 +225,18 @@ function ImageUploadComponent() {
   const handleChange = (prop, event) => {
     setNftValues({ ...nftValues, [prop]: event.target.value });
   };
+
+  const handleApiErrorClose = () => {
+    setApiError(false);
+  };
+
+  const action = (
+    <React.Fragment>
+      <IconButton size="small" aria-label="close" color="inherit" onClick={handleApiErrorClose}>
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
 
   return (
     <>
@@ -190,6 +250,14 @@ function ImageUploadComponent() {
             <Grid item xs={5} md={5}>
               <div className="upload-container">
                 <h2 className="title">Upload an Image to search similar image</h2>
+                <Snackbar
+                  open={apiError}
+                  severity="success"
+                  autoHideDuration={6000}
+                  onClose={handleApiErrorClose}
+                  message="Something went wrong please try after some time."
+                  action={action}
+                />
                 <Grid container spacing={3}>
                   <Grid item xs={7} md={7} style={{ marginTop: "50px", textAlign: "center" }}>
                     {/* <form onSubmit={handleSubmit} className="form"> */}
@@ -315,12 +383,7 @@ function ImageUploadComponent() {
                   <React.Fragment key={key}>
                     <Grid item xs={3} md={3} style={{ padding: "25px" }}>
                       <Card sx={{ maxWidth: 345 }}>
-                        <CardMedia
-                        // component="img"
-                        // alt="green iguana"
-                        // height="140"
-                        // image="/static/images/cards/contemplative-reptile.jpg"
-                        >
+                        <CardMedia>
                           <ImageContainer
                             className="imageContainer"
                             imageUrl={nft.imageOriginalUrl}

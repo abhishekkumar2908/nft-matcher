@@ -33,9 +33,9 @@ public class SpringBootUploadImageApplication {
 		};
 	}
 
-//	@EventListener(ApplicationReadyEvent.class)
-//	public void storeHashofNft() {
-//		hasingService.storeHashOfNFT();
-//	}
+	@EventListener(ApplicationReadyEvent.class)
+	public void storeHashofNft() {
+		hasingService.storeHashOfNFT();
+	}
 
 }
