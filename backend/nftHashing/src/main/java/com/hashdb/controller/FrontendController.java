@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.hashdb.entities.NFT;
 import com.hashdb.entities.NftHash;
+import com.hashdb.entities.ResponseBody;
 import com.hashdb.repositories.NftHashRepository;
 import com.hashdb.repositories.NftRepository;
 import com.hashdb.service.SimilarImageService;
@@ -45,7 +46,7 @@ public class FrontendController {
 	@PostMapping("/find/any/similar/image")
 	public ResponseEntity<List<SimilarNft>> similarImage(@RequestParam("image") MultipartFile file)
 			throws IOException, TranscoderException {
-		
+
 		System.out.println("inside the Similar Image Function");
 
 		BufferedImage hashImage;
@@ -81,9 +82,15 @@ public class FrontendController {
 
 	@GetMapping("/find/any/similar/nft")
 	public ResponseEntity<List<SimilarNft>> similarImage(@RequestParam("contractAddress") String contractAddress,
-			@RequestParam("tokenId") String tokenId,@RequestParam("chain") String chain) {
+			@RequestParam("tokenId") String tokenId, @RequestParam("chain") String chain) {
 
-		return ResponseEntity.ok().body(similarImageService.findSimilarImage(tokenId, contractAddress,chain));
+		return ResponseEntity.ok().body(similarImageService.findSimilarImage(tokenId, contractAddress, chain));
 
 	}
+
+	@GetMapping("/nft/search")
+	public ResponseBody<List<NFT>> getAllNfts(@RequestParam("page") int page, @RequestParam("limit") int limit) {
+		return new ResponseBody<>(1, "SUCCESS", similarImageService.findAllNts(limit, page));
+	}
+
 }

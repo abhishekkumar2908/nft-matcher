@@ -65,4 +65,20 @@ export default class SyncService extends React.Component {
       .then((res) => (res.ok ? res : Promise.reject(res)))
       .then((res) => res.json());
   };
+
+  findAllNfts = async (page, limit) => {
+    console.log("indside findSimilarNftByImage Function");
+
+    const accessToken = await accessTokenService.getAccessToken();
+    console.log(accessToken);
+    return fetch(config.api.BASE_URL + "/nft/search?page=" + page + "&limit=" + limit, {
+      method: "GET",
+      headers: {
+        // "Content-Type": "application/json",
+        //   Authorization: "Bearer " + accessToken,
+      },
+    })
+      .then((res) => (res.ok ? res : Promise.reject(res)))
+      .then((res) => res.json());
+  };
 }

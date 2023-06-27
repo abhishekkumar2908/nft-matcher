@@ -61,7 +61,7 @@ function DashboardLayout({ bgColor, children, ...rest }) {
         left={0}
         sx={darkMode && { bgColor: ({ palette: { background } }) => background.default }}
         {...rest}
-        style={{ borderBottom: "1px solid black" }}
+        // style={{ borderBottom: "1px solid black" }}
       />
       {children}
     </ArgonBox>

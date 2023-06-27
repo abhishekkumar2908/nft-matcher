@@ -59,6 +59,8 @@ import SignUp from "layouts/authentication/sign-up";
 import Confirm from "layouts/authentication/confirm";
 import Tanent from "layouts/tanent";
 import NotFound from "layouts/notFound";
+import NftList from "layouts/nft";
+import ImageUploadComponent from "layouts/nftMatcher/ImageUploadComponent";
 
 export default function App() {
   const [controller, dispatch] = useArgonController();
@@ -166,11 +168,12 @@ export default function App() {
         {layout === "vr" && <Configurator />}
         <Routes>
           {getRoutes(routes)}
-          <Route path="*" element={<Navigate to="/tenant" />} />
+          <Route path="*" element={<Navigate to="/uploadImage" />} />
           <Route path="/authentication/sign-in" element={<SignIn />} />
           <Route path="/authentication/sign-up" element={<SignUp />} />
           <Route path="/authentication/confirm" element={<Confirm />} />
           <Route path="/tenant-detail" element={<Tanent />} />
+          <Route path="/nfts" element={<NftList />} />
         </Routes>
       </ThemeProvider>
     </CacheProvider>
@@ -194,10 +197,11 @@ export default function App() {
       {/* {layout === "vr" && <Configurator />} */}
       <Routes>
         {getRoutes(routes)}
-        <Route path="/" element={<SignIn />} />
+        <Route path="/" element={<Navigate to="/uploadImage" />} />
         <Route path="/authentication/sign-in" element={<SignIn />} />
         <Route path="/authentication/sign-up" element={<SignUp />} />
         <Route path="/authentication/confirm" element={<Confirm />} />
+        <Route path="/nfts" element={<NftList />} />
         <Route path="*" element={<NotFound />} />
         {/* <Route path="/tenant-detail" element={<Tanent />} /> */}
       </Routes>
