@@ -24,7 +24,9 @@ public class NFT {
 	private String provider;
 	private boolean isHashed;
 	
-	
+	private String imageSmallUrl;
+	private String imageMediumUrl;
+	private String imageLargeUrl;
 	
 
 }

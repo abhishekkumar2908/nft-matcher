@@ -177,7 +177,7 @@ function NftList() {
                       >
                         <ImageContainer
                           className="imageContainer"
-                          imageUrl={nft.imageOriginalUrl}
+                          imageUrl={nft.imageSmallUrl ? nft.imageSmallUrl : nft.imageOriginalUrl}
                         />
                       </CardMedia>
                       <CardContent>
@@ -250,26 +250,6 @@ function NftList() {
                         </Button>
                       </CardActions>
                     </Card>
-                    {/* <div style={{ marginTop: "10px" }}>
-                      <ImageContainer className="imageContainer" imageUrl={nft.imageOriginalUrl} />
-                       
-                      
-                      <p
-                        style={{
-                          fontSize: "14px",
-                          margin: "0",
-                          overflowWrap: "break-word",
-                        }}
-                      >
-                        Address: {nft.address}
-                      </p>
-                      <div style={{ textAlign: "center", marginTop: "10px", color: "black" }}>
-                        <button className="expansion-button" style={{ color: "black" }}>
-                          Find Similar
-                        </button>
-                      </div>
-                       
-                    </div> */}
                   </Grid>
                 </React.Fragment>
               );

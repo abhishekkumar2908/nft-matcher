@@ -3,6 +3,7 @@ package com.qualtab.NFTs.Collection.services.SimpleHashServices;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
@@ -35,14 +36,14 @@ public class SimpleHashApiServiceImpl implements SimpleHashApiService {
 
 	@Value("${simpleHash.apiKey}")
 	String apiKey;
-	
+
 	String cursor = "ZmZmOWUzZTIzN2I3MWE2NDY2NWJiMmE3ZWI2YjBlZDdfX25leHQ";
 
 //................................................................................................................................................
 	@Autowired
 	public SimpleHashApiServiceImpl(CollectionsRepository collectionsRepository,
-									NFTDocumentRepository nftDocumentRepository) {
-		
+			NFTDocumentRepository nftDocumentRepository) {
+
 		this.collectionsRepository = collectionsRepository;
 		Retrofit retrofit = new Retrofit.Builder().baseUrl("https://api.simplehash.com/api/v0/nfts/")
 				.addConverterFactory(JacksonConverterFactory.create()).build();
@@ -57,103 +58,107 @@ public class SimpleHashApiServiceImpl implements SimpleHashApiService {
 
 		System.out.println(" \n starting from cursor: " + previous);
 //.............currentChain will carry chain name that would be passed to the API.........................................................		
-		String[] chains = {"ethereum", "avalanche"};
-			   
+		String[] chains = { "ethereum", "avalanche" };
 
 //		boolean isFirstTime = true;
-		for(String currentChain : chains) {
-		do {
-			Call<CollectionsResponse> call = null;
-//			if (isFirstTime) {
-//				call = simpleHashService.getCollections(currentChain, apiKey, 50, cursor);
-//				isFirstTime = false;
-//			} else {
-				call = simpleHashService.getCollections(currentChain, apiKey, 50, previous);
-//			}
+		for (String currentChain : chains) {
+//		do {
+//			Call<CollectionsResponse> call = null;
+////			if (isFirstTime) {
+////				call = simpleHashService.getCollections(currentChain, apiKey, 50, cursor);
+////				isFirstTime = false;
+////			} else {
+//				call = simpleHashService.getCollections(currentChain, apiKey, 50, previous);
+////			}
+//
+//			Response<CollectionsResponse> response = call.execute();
+//			if (response.isSuccessful()) {
+//
+//				CollectionsResponse collectionsResponse = response.body();
+//				if (collectionsResponse.getPrivious() != null)
+//					previous = Extractor.prevFromUrl(collectionsResponse.getPrivious());
+//
+//				List<CollectionId> collectionIds = collectionsResponse.getCollections();
+//
+//				for (CollectionId ids : collectionIds) {
+//
+//					Collection collections = new Collection();
+//					collections.setChain(currentChain);
+//					collections.setCollectionId(ids.getCollectionId());
+//					collections.setNextCursor(collectionsResponse.getNextCursor());
+//					collections.setPrevious(previous);
+//					collections.setCreatedDate(new Date().getTime());
 
-			Response<CollectionsResponse> response = call.execute();
-			if (response.isSuccessful()) {
+//					Collection collection = collectionsRepository.findByCollectionId(ids.getCollectionId());
+			List<Collection> collection = collectionsRepository.findByChain("ethereum");
 
-				CollectionsResponse collectionsResponse = response.body();
-				if (collectionsResponse.getPrivious() != null)
-					previous = Extractor.prevFromUrl(collectionsResponse.getPrivious());
+			if (!ObjectUtils.isEmpty(collection)) {
+//						collections.setId(UUID.randomUUID());
+//						collections.setSyncDone(false);
+//						collectionsRepository.save(collections);						
 
-				List<CollectionId> collectionIds = collectionsResponse.getCollections();
+				for (Collection ids : collection) {
+					do {
 
-				for (CollectionId ids : collectionIds) {
+						Call<SimpleHashNftResponse> hashNftCall = simpleHashService
+								.getNftByCollection(ids.getCollectionId(), apiKey, 200, nextNft);
 
-					Collection collections = new Collection();
-					collections.setChain(currentChain);
-					collections.setCollectionId(ids.getCollectionId());
-					collections.setNextCursor(collectionsResponse.getNextCursor());
-					collections.setPrevious(previous);
-					collections.setCreatedDate(new Date().getTime());
-					
+						Response<SimpleHashNftResponse> nftResponse = hashNftCall.execute();
 
+						if (nftResponse.isSuccessful()) {
 
-					Collection collection = collectionsRepository.findByCollectionId(ids.getCollectionId());
+							SimpleHashNftResponse hashNftResponse = nftResponse.body();
 
-					if (ObjectUtils.isEmpty(collection)) {
-						collections.setId(UUID.randomUUID());
-						collections.setSyncDone(false);
-						collectionsRepository.save(collections);						
-						
-						do {
+							hashNftResponse.getNfts().stream().forEach(nft -> {
 
-							
-							Call<SimpleHashNftResponse> hashNftCall = simpleHashService
-									.getNftByCollection(ids.getCollectionId(), apiKey, 50, nextNft);
-
-							Response<SimpleHashNftResponse> nftResponse = hashNftCall.execute();
-
-							if (nftResponse.isSuccessful()) {
+								NFTDocument nftDocument = new NFTDocument();
+								nftDocument.setId(UUID.randomUUID());
+								nftDocument.setCollectionId(nft.getCollection().getCollection_id());
+								nftDocument.setNftId(nft.getNft_id());
+								nftDocument.setAddress(nft.getContract_address());
+								nftDocument.setImageOriginalUrl(nft.getExtra_metadata().getImage_original_url());
+								nftDocument.setNext(hashNftResponse.getNext_cursor());
+								nftDocument.setPrevious(hashNftResponse.getPrevious());
+								nftDocument.setProvider(currentChain);
+								nftDocument.setTokenId(nft.getToken_id());
+								nftDocument.setTokenMetadata(nft.getExtra_metadata().getMetadata_original_url());
+								nftDocument.setHashed(false);
+								System.out.println(nft.getNft_id()+"   small URL:   "+nft.getPreviews().getImage_small_url());
+								nftDocument.setImageSmallUrl(nft.getPreviews().getImage_small_url());
+								nftDocument.setImageMediumUrl(nft.getPreviews().getImage_medium_url());
+								nftDocument.setImageLargeUrl(nft.getPreviews().getImage_large_url());
 								
-								SimpleHashNftResponse hashNftResponse = nftResponse.body();
 								
-								hashNftResponse.getNfts().stream().forEach(nft -> {
+								NFTDocument nftDocument2 = nftDocumentRepository.findByNftId(nft.getNft_id());
+								if (!ObjectUtils.isEmpty(nftDocument2)) {
+									nftDocument.setId(nftDocument2.getId());
+								}
 
-									NFTDocument nftDocument = new NFTDocument();
-									nftDocument.setId(UUID.randomUUID());
-									nftDocument.setCollectionId(nft.getCollection().getCollection_id());
-									nftDocument.setNftId(nft.getNft_id());
-									nftDocument.setAddress(nft.getContract_address());
-									nftDocument.setImageOriginalUrl(nft.getExtra_metadata().getImage_original_url());
-									nftDocument.setNext(hashNftResponse.getNext_cursor());
-									nftDocument.setPrevious(hashNftResponse.getPrevious());
-									nftDocument.setProvider(currentChain);
-									nftDocument.setTokenId(nft.getToken_id());									
-									nftDocument.setTokenMetadata(nft.getExtra_metadata().getMetadata_original_url());
-									nftDocument.setHashed(false);
-									NFTDocument nftDocument2 = nftDocumentRepository.findByNftId(nft.getNft_id());
-									if (!ObjectUtils.isEmpty(nftDocument2)) {
-										nftDocument.setId(nftDocument2.getId());
-									}
+								nftDocumentRepository.save(nftDocument);
+								if (hashNftResponse.getNext_cursor() != null) {
+									nextNft = hashNftResponse.getNext_cursor();
+								} else
+									nextNft = null;
+							});
+						}
+						System.out.println("\n NFT Saved with collectionId " + ids.getCollectionId());
 
-									nftDocumentRepository.save(nftDocument);
-									if(hashNftResponse.getNext_cursor() != null){
-										 nextNft = hashNftResponse.getNext_cursor();
-									}
-									else
-										nextNft = null;
-								});
-							}
-							System.out.println("\n NFT Saved with collectionId " + ids.getCollectionId());
+					} while (nextNft != null);
 
-						} while (nextNft != null);
-						
-
-						collections.setSyncDone(true);
-						collectionsRepository.save(collections);
-
-					}
 				}
+//						collections.setSyncDone(true);
+//						collectionsRepository.save(collections);
 
-			} else 
-				System.out.println(response.errorBody() + "\n");
+			}
+		}
+
+//			} else {
+//				System.out.println(response.errorBody() + "\n");
+//			}
 //			Thread.sleep(100);
 
-		} while (previous != null);
-	  }
+//		} while (previous != null);
+//	  }
 	}
 
 //................................................................................................................................................	
@@ -167,6 +172,5 @@ public class SimpleHashApiServiceImpl implements SimpleHashApiService {
 			return collection.getPrevious();
 		}
 	}
-	
- 
+
 }

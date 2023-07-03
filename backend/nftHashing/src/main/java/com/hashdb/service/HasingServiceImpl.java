@@ -56,6 +56,8 @@ public class HasingServiceImpl implements HasingService {
 					System.out.println(nft.getImageOriginalUrl());
 					if (nft.getImageOriginalUrl().contains("ipfs://")) {
 						imageUrl = getIpfsUrls(nft.getImageOriginalUrl());
+					}else {
+						imageUrl = new URL(nft.getImageOriginalUrl());
 					}
 
 					BufferedImage hashImage = null;
@@ -116,7 +118,7 @@ public class HasingServiceImpl implements HasingService {
 				} catch (IOException e) {
 				}
 				if (!ObjectUtils.isEmpty(image) && image.getWidth(null) != -1) {
-					System.out.println("image is Working");
+					System.out.println("image is Working.." + imageURL);
 					return imageUrl;
 				}
 			}

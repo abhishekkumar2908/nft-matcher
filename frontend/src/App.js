@@ -57,7 +57,9 @@ import "assets/css/nucleo-svg.css";
 import SignIn from "layouts/authentication/sign-in";
 import SignUp from "layouts/authentication/sign-up";
 import Confirm from "layouts/authentication/confirm";
-import Tanent from "layouts/tanent";
+import ForgotPassword from "layouts/authentication/forgotPassword";
+import ResetPassword from "layouts/authentication/resetPassword";
+
 import NotFound from "layouts/notFound";
 import NftList from "layouts/nft";
 import ImageUploadComponent from "layouts/nftMatcher/ImageUploadComponent";
@@ -172,8 +174,11 @@ export default function App() {
           <Route path="/authentication/sign-in" element={<SignIn />} />
           <Route path="/authentication/sign-up" element={<SignUp />} />
           <Route path="/authentication/confirm" element={<Confirm />} />
-          <Route path="/tenant-detail" element={<Tanent />} />
+          <Route path="/authentication/forgot" element={<ForgotPassword />} />
+          <Route path="/authentication/reset" element={<ResetPassword />} />
           <Route path="/nfts" element={<NftList />} />
+          {/* <Route path="/tenant-detail" element={<Tanent />} />
+           */}
         </Routes>
       </ThemeProvider>
     </CacheProvider>
@@ -201,6 +206,8 @@ export default function App() {
         <Route path="/authentication/sign-in" element={<SignIn />} />
         <Route path="/authentication/sign-up" element={<SignUp />} />
         <Route path="/authentication/confirm" element={<Confirm />} />
+        <Route path="/authentication/forgot" element={<ForgotPassword />} />
+        <Route path="/authentication/reset" element={<ResetPassword />} />
         <Route path="/nfts" element={<NftList />} />
         <Route path="*" element={<NotFound />} />
         {/* <Route path="/tenant-detail" element={<Tanent />} /> */}
