@@ -29,7 +29,6 @@ import { CognitoUser, CognitoUserPool, AuthenticationDetails } from "amazon-cogn
 import IllustrationLayout from "layouts/authentication/components/IllustrationLayout";
 import config from "../../../config";
 import { Backdrop, CircularProgress } from "@material-ui/core";
-import ImageUploadComponent from "layouts/nftMatcher/ImageUploadComponent";
 
 const poolData = {
   UserPoolId: config.awsConfig.UserPoolId,
@@ -37,7 +36,7 @@ const poolData = {
 };
 const UserPool = new CognitoUserPool(poolData);
 
-function Illustration() {
+function forgotPassword() {
   const navigate = useNavigate();
 
   const [rememberMe, setRememberMe] = useState(false);
@@ -73,40 +72,20 @@ function Illustration() {
       setMailError(true);
     }
 
-    if (values.password) {
-      validationArr.push(false);
-      setPasswordError(false);
-    } else {
-      validationArr.push(true);
-      setPasswordError(true);
-    }
-
     const user = new CognitoUser({
       Username: values.email,
       Pool: UserPool,
     });
-    const authDetails = new AuthenticationDetails({
-      Username: values.email,
-      Password: values.password,
-    });
+
     if (!validationArr.includes(true)) {
-      user.authenticateUser(authDetails, {
+      console.log("inside the if condition");
+      console.log(values.email);
+      console.log(user);
+      user.forgotPassword({
         onSuccess: (data) => {
           console.log("onSuccess:", data);
-          const token = data.accessToken.jwtToken;
-          const refresh_token = data.refreshToken.token;
-          const email = data.idToken.payload.email;
-          const subId = data.idToken.payload.email;
 
-          localStorage.setItem("access_token", token);
-          localStorage.setItem("refresh_token", refresh_token);
-          localStorage.setItem("email", email);
-
-          const accessToken = data.getAccessToken().getJwtToken();
-          console.log("accessToken accessToken accessToken");
-          console.log(accessToken);
-
-          navigate("/uploadImage");
+          navigate("/authentication/reset", { state: values });
         },
 
         onFailure: (err) => {
@@ -124,10 +103,6 @@ function Illustration() {
           }
           setLoading(false);
         },
-
-        newPasswordRequired: (data) => {
-          console.log("newPasswordRequired:", data);
-        },
       });
     } else {
       setLoading(false);
@@ -135,7 +110,10 @@ function Illustration() {
   };
 
   return (
-    <IllustrationLayout title="Sign In" description="Enter your email and password to sign in">
+    <IllustrationLayout
+      title="Forgot Password"
+      description="Enter email that you want to forgot password"
+    >
       <Backdrop open={loading} style={{ zIndex: 999, color: "#fff" }}>
         <CircularProgress color="inherit" />
       </Backdrop>
@@ -152,33 +130,7 @@ function Illustration() {
             }}
           />
         </ArgonBox>
-        <ArgonBox mb={2}>
-          <ArgonInput
-            error={passwordError}
-            type="password"
-            placeholder="Password"
-            size="large"
-            onChange={(event) => {
-              handleChange("password", event);
-            }}
-          />
-        </ArgonBox>
-        {/* <ArgonBox display="flex" alignItems="center">
-          <Switch checked={rememberMe} onChange={handleSetRememberMe} />
-          <ArgonTypography
-            variant="button"
-            fontWeight="regular"
-            onClick={handleSetRememberMe}
-            sx={{ cursor: "pointer", userSelect: "none" }}
-          >
-            &nbsp;&nbsp;Remember me
-          </ArgonTypography>
-        </ArgonBox> */}
-        <ArgonBox mb={2} style={{ textAlign: "right" }}>
-          <a href="/authentication/forgot" style={{ fontSize: "12px" }}>
-            Forgot Password..?
-          </a>
-        </ArgonBox>
+
         <ArgonBox mt={4} mb={1}>
           <ArgonButton
             color="info"
@@ -189,7 +141,7 @@ function Illustration() {
               onSubmit();
             }}
           >
-            Sign In
+            Forgot password
           </ArgonButton>
         </ArgonBox>
         <ArgonBox mt={3} textAlign="center">
@@ -206,9 +158,24 @@ function Illustration() {
             </ArgonTypography>
           </ArgonTypography>
         </ArgonBox>
+        <ArgonBox textAlign="center">
+          <ArgonTypography variant="button" color="text" fontWeight="regular">
+            Already have an account?&nbsp;
+            <ArgonTypography
+              component={Link}
+              to="/authentication/sign-in"
+              variant="button"
+              color="info"
+              fontWeight="medium"
+              textGradient
+            >
+              Sign in
+            </ArgonTypography>
+          </ArgonTypography>
+        </ArgonBox>
       </ArgonBox>
     </IllustrationLayout>
   );
 }
 
-export default Illustration;
+export default forgotPassword;

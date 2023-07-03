@@ -246,8 +246,13 @@ function ImageUploadComponent() {
           <Backdrop open={loading} style={{ zIndex: 999, color: "#fff" }}>
             <CircularProgress color="inherit" />
           </Backdrop>
-          <Grid container spacing={3}>
-            <Grid item xs={5} md={5}>
+          <Grid container spacing={3} pt={5} style={{ marginTop: "10px" }}>
+            <Grid
+              item
+              xs={6}
+              md={6}
+              style={{ borderRight: "1px solid black", borderBottom: "1px solid black" }}
+            >
               <div className="upload-container">
                 <h2 className="title">Upload an Image to search similar image</h2>
                 <Snackbar
@@ -292,13 +297,25 @@ function ImageUploadComponent() {
                 </Grid>
               </div>
             </Grid>
-            <Grid item xs={1} md={1}>
-              <div style={{ marginTop: "100px" }}>
-                <p>OR</p>
-              </div>
-            </Grid>
-            <Grid item xs={5} md={5}>
-              <div className="upload-container" style={{ marginTop: "50px" }}>
+            {/* <Grid item xs={1} md={1}> */}
+            <div style={{ position: "absolute", top: "50%", left: "47.5%" }}>
+              <p
+                style={{
+                  border: "1px solid black",
+                  padding: "10px",
+                  borderRadius: "30px",
+                  backgroundColor: "#007bff",
+                  color: "white",
+                  fontWeight: "bold",
+                }}
+              >
+                OR
+              </p>
+            </div>
+            {/* </Grid> */}
+            {/* <Grid item xs={1} md={1}></Grid> */}
+            <Grid item xs={5} md={5} style={{ borderBottom: "1px solid black" }}>
+              <div className="upload-container" style={{ marginTop: "50px", marginLeft: "30px" }}>
                 <ArgonBox mb={2}>
                   <ArgonInput
                     error={contractAddressError}
@@ -325,8 +342,9 @@ function ImageUploadComponent() {
                 </ArgonBox>
 
                 <ArgonBox mb={2}>
-                  <FormControl sx={{ m: 1, minWidth: 200 }}>
-                    <InputLabel id="demo-simple-select-autowidth-label">Select Chain</InputLabel>
+                  <span style={{ fontSize: "14px" }}>Select Chain: </span>
+                  <FormControl sx={{ m: 1 }} style={{ width: "300px" }}>
+                    {/* <InputLabel id="demo-simple-select-autowidth-label">Select Chain</InputLabel> */}
                     <Select
                       labelId="demo-simple-select-autowidth-label"
                       id="demo-simple-select-autowidth"
@@ -335,26 +353,29 @@ function ImageUploadComponent() {
                       onChange={(event) => {
                         handleChange("chain", event);
                       }}
-                      fullWidth
-                      label="Age"
+                      // label="Age"
+                      sx={{ height: "100px" }}
                     >
                       <MenuItem value={"ethereum"}>Ethereum</MenuItem>
                     </Select>
                   </FormControl>
                 </ArgonBox>
 
-                <button
-                  // type="submit"
-                  className="upload-button"
-                  onClick={() => {
-                    findImageByContractAddress(nftValues);
-                  }}
-                  // style={{ marginTop: "20px" }}
-                >
-                  Find
-                </button>
+                <div style={{ textAlign: "center" }}>
+                  <button
+                    // type="submit"
+                    className="upload-button"
+                    onClick={() => {
+                      findImageByContractAddress(nftValues);
+                    }}
+                    // style={{ marginTop: "20px" }}
+                  >
+                    Find
+                  </button>
+                </div>
               </div>
             </Grid>
+            <Grid item xs={1} md={1} style={{ borderBottom: "1px solid black" }}></Grid>
           </Grid>
         </ArgonBox>
 
@@ -386,7 +407,7 @@ function ImageUploadComponent() {
                         <CardMedia>
                           <ImageContainer
                             className="imageContainer"
-                            imageUrl={nft.imageOriginalUrl}
+                            imageUrl={nft.imageSmallUrl ? nft.imageSmallUrl : nft.imageOriginalUrl}
                           />
                         </CardMedia>
                         <CardContent>

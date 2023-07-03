@@ -20,9 +20,9 @@ public class NFTDocument {
 	private String previous;
 	private String provider;
 	private boolean isHashed;
-	
-	
-	
+	private String imageSmallUrl;
+	private String imageMediumUrl;
+	private String imageLargeUrl;
 
 	public String getCollectionId() {
 		return collectionId;
@@ -31,9 +31,6 @@ public class NFTDocument {
 	public void setCollectionId(String collectionId) {
 		this.collectionId = collectionId;
 	}
-
-	
-	
 
 	public String getImageOriginalUrl() {
 		return imageOriginalUrl;
@@ -107,10 +104,6 @@ public class NFTDocument {
 		this.tokenMetadata = tokenMetadata;
 	}
 
-	
-
-	
-
 	public boolean isHashed() {
 		return isHashed;
 	}
@@ -119,8 +112,37 @@ public class NFTDocument {
 		this.isHashed = isHashed;
 	}
 
-	
+	public String getImageSmallUrl() {
+		return imageSmallUrl;
+	}
 
-	
+	public void setImageSmallUrl(String imageSmallUrl) {
+		this.imageSmallUrl = imageSmallUrl;
+	}
+
+	public String getImageMediumUrl() {
+		return imageMediumUrl;
+	}
+
+	public void setImageMediumUrl(String imageMediumUrl) {
+		this.imageMediumUrl = imageMediumUrl;
+	}
+
+	public String getImageLargeUrl() {
+		return imageLargeUrl;
+	}
+
+	public void setImageLargeUrl(String imageLargeUrl) {
+		this.imageLargeUrl = imageLargeUrl;
+	}
+
+	@Override
+	public String toString() {
+		return "NFTDocument [id=" + id + ", collectionId=" + collectionId + ", nftId=" + nftId + ", imageOriginalUrl="
+				+ imageOriginalUrl + ", tokenMetadata=" + tokenMetadata + ", tokenId=" + tokenId + ", address="
+				+ address + ", next=" + next + ", previous=" + previous + ", provider=" + provider + ", isHashed="
+				+ isHashed + ", imageSmallUrl=" + imageSmallUrl + ", imageMediumUrl=" + imageMediumUrl
+				+ ", imageLargeUrl=" + imageLargeUrl + "]";
+	}
 
 }

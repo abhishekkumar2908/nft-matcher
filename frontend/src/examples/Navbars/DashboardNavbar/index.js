@@ -12,7 +12,7 @@ Coded by www.creative-tim.com
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-
+import * as React from "react";
 import { useState, useEffect } from "react";
 
 // react-router components
@@ -56,12 +56,15 @@ import {
 } from "context";
 
 // Images
-import nftImage from "assets/images/nftImage.jpg";
+import nftImage from "assets/images/matcher/nft-matcher.png";
 import team2 from "assets/images/team-2.jpg";
 import logoSpotify from "assets/images/small-logos/logo-spotify.svg";
 import config from "config";
 import { useNavigate } from "react-router-dom";
 import { Backdrop, CircularProgress } from "@material-ui/core";
+
+import Button from "@mui/material/Button";
+import MenuItem from "@mui/material/MenuItem";
 
 const AmazonCognitoIdentity = require("amazon-cognito-identity-js");
 const poolData = {
@@ -71,6 +74,16 @@ const poolData = {
 const userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
 
 function DashboardNavbar({ absolute, light, isMini }) {
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    console.log("handle Click");
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   const [navbarType, setNavbarType] = useState();
   const [controller, dispatch] = useArgonController();
   const { miniSidenav, transparentNavbar, fixedNavbar, openConfigurator } = controller;
@@ -121,51 +134,12 @@ function DashboardNavbar({ absolute, light, isMini }) {
     });
   };
 
-  // Render the notifications menu
-  const renderMenu = () => (
-    <Menu
-      anchorEl={openMenu}
-      anchorReference={null}
-      anchorOrigin={{
-        vertical: "bottom",
-        horizontal: "left",
-      }}
-      open={Boolean(openMenu)}
-      onClose={handleCloseMenu}
-      sx={{ mt: 2 }}
-    >
-      <NotificationItem
-        image={<img src={team2} alt="person" />}
-        title={["New message", "from Laur"]}
-        date="13 minutes ago"
-        onClick={handleCloseMenu}
-      />
-      <NotificationItem
-        image={<img src={logoSpotify} alt="person" />}
-        title={["New album", "by Travis Scott"]}
-        date="1 day"
-        onClick={handleCloseMenu}
-      />
-      <NotificationItem
-        color="secondary"
-        image={
-          <Icon fontSize="small" sx={{ color: ({ palette: { white } }) => white.main }}>
-            payment
-          </Icon>
-        }
-        title={["", "Payment successfully completed"]}
-        date="2 days"
-        onClick={handleCloseMenu}
-      />
-    </Menu>
-  );
-
   return (
     <AppBar
-      position={absolute ? "absolute" : navbarType}
+      position={"fixed"}
       color="inherit"
-      sx={(theme) => navbar(theme, { transparentNavbar, absolute, light })}
-      style={{ backgroundColor: "red" }}
+      style={{ backgroundColor: "#5ba2ee" }}
+      // sx={(theme) => navbar(theme, { transparentNavbar, absolute, light })}
     >
       <Backdrop open={loading} style={{ zIndex: 999, color: "#fff" }}>
         <CircularProgress color="inherit" />
@@ -185,75 +159,48 @@ function DashboardNavbar({ absolute, light, isMini }) {
               sx={{ lineHeight: 0 }}
               style={{ fontSize: "20px" }}
             >
-              <p style={{ color: "black" }}>
+              {/* <p style={{ color: "White" }}>
                 <b>NFT Matcher</b>
-              </p>
-              {/* <img
-                src={nftImage} alt="NFT Matcher"
+              </p> */}
+              <img
+                src={nftImage}
+                alt="NFT Matcher"
                 style={{
-                  width: "24px", // Adjust the width and height as needed
-                  height: "24px",
-                  verticalAlign: "middle",
+                  // width: "100px", // Adjust the width and height as needed
+                  height: "80px",
+                  // verticalAlign: "middle",
+                  // color: "white",
+                  marginLeft: "50px",
                 }}
-              />{" "} */}
+              />{" "}
             </ArgonTypography>
           </Link>
         </ArgonBox>
         {isMini ? null : (
           <ArgonBox sx={(theme) => navbarRow(theme, { isMini })}>
             <ArgonBox color={light ? "black" : "inherit"}>
-              {/* {localStorage.getItem("email") ? (
-                  <Link to="/authentication/sign-in">
-                    <p style={{ fontSize: "14px", fontWeight: 600 }}>
-                      {" "}
-                      {localStorage.getItem("email")}
-                    </p>
-                  </Link>
-                ) : (
-                  <Link to="/authentication/sign-in">
-                    <IconButton sx={navbarIconButton} size="small">
-                      <Icon
-                        sx={({ palette: { dark, white } }) => ({
-                          color: light && transparentNavbar ? white.main : dark.main,
-                        })}
-                      >
-                        account_circle
-                      </Icon>
-                      <ArgonTypography
-                        variant="button"
-                        fontWeight="medium"
-                        // color={light && transparentNavbar ? "white" : "dark"}
-                      >
-                        Sign in
-                      </ArgonTypography>
-                    </IconButton>
-                  </Link>
-                )} */}
-
               <ArgonBox display={{ xs: "none", lg: "flex" }} m={0} p={0}>
-                {/* <DefaultNavbarLink
-              icon="donut_large"
-              name="dashboard"
-              route="/dashboard"
-              light={light}
-            /> */}
-                {/* <DefaultNavbarLink icon="person" name="profile" route="/profile" light={light} /> */}
-
-                {/* <DefaultNavbarLink
-                  // icon="account_circle"
-                  name="See All Nft"
-                  route="/authentication/sign-up"
-                  // light={false}
-                  // style={{ fontSize: "14px" }}
-                /> */}
-
+                <Link to="/">
+                  <p
+                    style={{
+                      fontSize: "16px",
+                      fontWeight: 600,
+                      marginRight: "20px",
+                      color: "White",
+                      marginTop: "6px",
+                    }}
+                  >
+                    Home
+                  </p>
+                </Link>
                 <Link to="/nfts">
                   <p
                     style={{
                       fontSize: "16px",
                       fontWeight: 600,
                       marginRight: "100px",
-                      color: "blur",
+                      color: "White",
+                      marginTop: "6px",
                     }}
                   >
                     See All Nft
@@ -261,13 +208,29 @@ function DashboardNavbar({ absolute, light, isMini }) {
                 </Link>
 
                 {localStorage.getItem("email") ? (
-                  <Link to="/authentication/sign-in">
-                    <p style={{ fontSize: "14px", fontWeight: 600, marginRight: "20px" }}>
-                      {" "}
-                      {localStorage.getItem("email")}
-                    </p>
-                  </Link>
+                  // <Link to="#">
+                  <Button
+                    id="basic-button"
+                    aria-controls={open ? "basic-menu" : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={open ? "true" : undefined}
+                    onClick={handleClick}
+                    style={{ color: "white" }}
+                  >
+                    <span style={{ marginTop: "5px" }}>
+                      <Icon
+                        sx={({ palette: { dark, white } }) => ({
+                          color: light && transparentNavbar ? white.main : dark.main,
+                        })}
+                      >
+                        account_circle
+                      </Icon>
+                    </span>
+
+                    <span style={{ marginLeft: "5px" }}>{localStorage.getItem("email")}</span>
+                  </Button>
                 ) : (
+                  // </Link>
                   <Link to="/authentication/sign-in">
                     <IconButton sx={navbarIconButton} size="small">
                       <Icon
@@ -287,7 +250,33 @@ function DashboardNavbar({ absolute, light, isMini }) {
                     </IconButton>
                   </Link>
                 )}
-                {localStorage.getItem("email") ? (
+
+                <Menu
+                  id="basic-menu"
+                  anchorEl={anchorEl}
+                  open={open}
+                  onClose={handleClose}
+                  MenuListProps={{
+                    "aria-labelledby": "basic-button",
+                  }}
+                >
+                  <MenuItem
+                    onClick={() => {
+                      // handleLogout();
+                      console.log("My Account Button Clicked.");
+                    }}
+                  >
+                    My account
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      handleLogout();
+                    }}
+                  >
+                    Logout
+                  </MenuItem>
+                </Menu>
+                {/* {localStorage.getItem("email") ? (
                   // <Link to="/authentication/sign-in">
                   <p
                     style={{
@@ -307,7 +296,7 @@ function DashboardNavbar({ absolute, light, isMini }) {
                 ) : (
                   // </Link>
                   ""
-                )}
+                )} */}
               </ArgonBox>
 
               {/* {renderMenu()} */}
